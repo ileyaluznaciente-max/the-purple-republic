@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Purple Republic</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="effects.css">
+<link rel="stylesheet" href="responsive.css">
+
+<style>
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple:     #7c3aed;
+  --purple-lg:  #a855f7;
+  --purple-sm:  #581c87;
+  --purple-glow:rgba(124,58,237,0.35);
+  --gold:       #c9a84c;
+  --bg:         #04020c;
+  --bg2:        #070412;
+  --text:       #ede9fe;
+  --text-dim:   rgba(196,181,253,0.55);
+  --border:     rgba(124,58,237,0.18);
+  --border-lg:  rgba(124,58,237,0.30);
+  --glass:      rgba(14,8,32,0.72);
+  --radius:     14px;
+  --radius-lg:  20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient background blobs */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(88,28,135,0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 10%;
+  right: -5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(109,40,217,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  background: rgba(4, 2, 12, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(124,58,237,0.12);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.nav-crown img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(168,85,247,0.5));
+}
+.nav-crown { display: flex; align-items: center; }
+.nav-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+.nav-sub {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  margin-top: 1px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-link {
+  background: none;
+  border: none;
+  color: rgba(196,181,253,0.55);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--text);
+  background: rgba(124,58,237,0.12);
+}
+.nav-link.active { color: #c4b5fd; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(124,58,237,0.07);
+  color: var(--text-dim);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.nav-icon-btn:hover { border-color: var(--border-lg); color: var(--text); background: rgba(124,58,237,0.15); }
+
+.nav-citizenship {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(168,85,247,0.35);
+  background: linear-gradient(135deg, rgba(88,28,135,0.3), rgba(109,40,217,0.2));
+  color: #c4b5fd;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.nav-citizenship:hover {
+  border-color: rgba(168,85,247,0.6);
+  background: linear-gradient(135deg, rgba(88,28,135,0.5), rgba(109,40,217,0.35));
+  box-shadow: 0 0 20px rgba(139,92,246,0.25);
+  transform: translateY(-1px);
+}
+.nav-citizenship-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.5); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(168,85,247,0); }
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 320px;
+  margin-top: 64px;
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* gradient velo sobre la imagen */
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(4,2,12,1) 0%, rgba(4,2,12,0.55) 35%, rgba(4,2,12,0.1) 65%, transparent 100%),
+    linear-gradient(to right, rgba(4,2,12,0.4) 0%, transparent 40%, transparent 60%, rgba(4,2,12,0.4) 100%);
+}
+
+/* building labels */
+.hero-labels {
+  position: absolute;
+  bottom: 38%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px;
+  pointer-events: none;
+}
+.hero-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.65);
+  text-shadow: 0 0 12px rgba(168,85,247,0.8), 0 0 24px rgba(168,85,247,0.4);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* hero bottom bar with title + CTA */
+.hero-bottom {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 48px 32px;
+}
+
+.hero-title-block {}
+.hero-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: rgba(168,85,247,0.6);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.hero-sub {
+  font-size: 13px;
+  color: rgba(196,181,253,0.5);
+  font-style: italic;
+  letter-spacing: 0.3px;
+}
+
+.hero-cta-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.hero-cta-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, #5b21b6, #7c3aed, #9333ea);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 0 30px rgba(139,92,246,0.4), 0 4px 20px rgba(0,0,0,0.4);
+}
+.hero-cta-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 45px rgba(139,92,246,0.6), 0 8px 30px rgba(0,0,0,0.5);
+}
+.hero-cta-sec {
+  background: none;
+  border: 1px solid rgba(196,181,253,0.2);
+  color: rgba(196,181,253,0.55);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hero-cta-sec:hover { border-color: rgba(168,85,247,0.4); color: #c4b5fd; }
+
+/* scroll hint */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+}
+.hero-scroll-hint span {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: rgba(168,85,247,0.3);
+}
+.hero-scroll-chevrons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hero-scroll-chevrons i {
+  display: block;
+  width: 10px; height: 10px;
+  border-right: 1px solid rgba(168,85,247,0.3);
+  border-bottom: 1px solid rgba(168,85,247,0.3);
+  transform: rotate(45deg);
+  animation: bounce-chevron 1.8s infinite;
+  margin: -4px 0;
+}
+.hero-scroll-chevrons i:nth-child(2) { animation-delay: 0.2s; opacity: 0.6; }
+.hero-scroll-chevrons i:nth-child(3) { animation-delay: 0.4s; opacity: 0.3; }
+@keyframes bounce-chevron {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(4px); }
+}
+
+/* ═══════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════ */
+.stats-bar--hero {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 6;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+}
+.stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0 48px;
+  background: rgba(7,4,18,0.9);
+  border-top: 1px solid rgba(124,58,237,0.12);
+  border-bottom: 1px solid rgba(124,58,237,0.12);
+  backdrop-filter: blur(10px);
+}
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px;
+  border-right: 1px solid rgba(124,58,237,0.10);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(168,85,247,0.6);
+}
+.stat-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+.stat-live { color: #a855f7; }
+.stat-live::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #a855f7;
+  margin-right: 5px;
+  animation: blink 1.5s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+/* ═══════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════ */
+.section {
+  padding: 48px 48px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.section-header-left {}
+.section-eyebrow {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: rgba(168,85,247,0.5);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.section-heading {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  color: var(--text);
+}
+.section-heading em {
+  font-style: normal;
+  background: linear-gradient(135deg, #a855f7, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.section-view-all {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.section-view-all:hover { border-color: var(--border-lg); color: #c4b5fd; }
+
+/* separator line */
+.section-sep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.section-sep-bar {
+  width: 3px; height: 16px;
+  border-radius: 2px;
+}
+.section-sep-text {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', monospace;
+}
+.section-sep-line {
+  flex: 1; height: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   MONUMENTS — HORIZONTAL ROW CARDS
+   (2 rows, each scrollable if needed)
+═══════════════════════════════════════════ */
+.monuments-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.monuments-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.monument-card {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 12px 16px;
+  text-align: center;
+  gap: 10px;
+}
+.monument-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124,58,237,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.monument-card:hover {
+  border-color: rgba(168,85,247,0.45);
+  background: rgba(88,28,135,0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 24px rgba(124,58,237,0.2);
+}
+
+.monument-icon-wrap {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  border: 1px solid rgba(124,58,237,0.2);
+  background: rgba(88,28,135,0.3);
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.monument-card:hover .monument-icon-wrap {
+  box-shadow: 0 0 20px rgba(168,85,247,0.3);
+}
+
+.monument-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.monument-desc {
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.monument-stats {
+  display: flex;
+  gap: 10px;
+  font-size: 9px;
+  color: rgba(167,139,250,0.5);
+  margin-top: auto;
+}
+.monument-stats strong {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.monument-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(124,58,237,0.25);
+  color: rgba(196,181,253,0.6);
+  background: rgba(88,28,135,0.15);
+}
+
+.monument-enter {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(124,58,237,0.25);
+  background: rgba(88,28,135,0.2);
+  color: rgba(196,181,253,0.7);
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: auto;
+}
+.monument-enter:hover {
+  background: rgba(124,58,237,0.3);
+  border-color: rgba(168,85,247,0.4);
+  color: #c4b5fd;
+}
+
+/* monument card with image background */
+.monument-card--img {
+  background: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  min-height: 200px;
+  overflow: hidden;
+}
+.monument-card-img-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(4,2,12,0.55) 0%, transparent 40%, rgba(4,2,12,0.55) 100%);
+  pointer-events: none;
+}
+.monument-name--img {
+  position: relative;
+  z-index: 2;
+  font-size: 11px;
+  color: #fde68a;
+  text-align: center;
+  width: 100%;
+}
+.monument-enter-link {
+  position: relative;
+  z-index: 2;
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(253,230,138,0.6);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(253,230,138,0.25);
+  padding-bottom: 3px;
+  transition: color 0.2s, border-color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.monument-enter-link:hover {
+  color: #fde68a;
+  border-color: rgba(253,230,138,0.6);
+}
+
+/* special monument colors */
+.monument-card.golden .monument-icon-wrap  { background: rgba(100,60,0,0.5); box-shadow: 0 0 20px rgba(251,191,36,0.2); }
+.monument-card.golden .monument-name       { color: #fde68a; }
+.monument-card.golden .monument-tag        { color: #fbbf24; border-color: rgba(251,191,36,0.3); background: rgba(100,60,0,0.2); }
+.monument-card.golden:hover                { border-color: rgba(251,191,36,0.4); box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 24px rgba(251,191,36,0.15); }
+
+.monument-card.dday .monument-icon-wrap    { background: rgba(10,10,18,0.65); box-shadow: 0 0 20px rgba(100,220,200,0.2); }
+.monument-card.dday .monument-name         { color: #e4e4e7; }
+.monument-card.dday .monument-tag          { color: #67e8f9; border-color: rgba(103,232,249,0.3); background: rgba(10,10,18,0.4); }
+.monument-card.dday:hover                  { border-color: rgba(103,232,249,0.35); }
+
+.monument-card.muse .monument-icon-wrap    { background: rgba(110,20,55,0.5); box-shadow: 0 0 20px rgba(192,132,252,0.3); }
+.monument-card.muse .monument-name         { color: #e9d5ff; }
+.monument-card.muse .monument-tag          { color: #c084fc; border-color: rgba(192,132,252,0.35); background: rgba(88,28,135,0.25); }
+
+/* ═══════════════════════════════════════════
+   MINISTRIES — 4 wide vertical cards
+═══════════════════════════════════════════ */
+.ministries-grid-4 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ministry4 {
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.ministry4-holo {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.ministry4:hover .ministry4-holo { opacity: 1; }
+.ministry4:hover {
+  border-color: var(--border-lg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 20px rgba(124,58,237,0.1);
+}
+.ministry4-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 28px;
+}
+.ministry4-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(88,28,135,0.25);
+  border: 1px solid rgba(124,58,237,0.15);
+}
+.ministry4-body {
+  flex: 1;
+}
+.ministry4-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+.ministry4-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.ministry4-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(124,58,237,0.25);
+  color: #c084fc;
+  background: rgba(88,28,135,0.15);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ministries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.glass-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.glass-card:hover {
+  border-color: var(--border-lg);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 20px rgba(124,58,237,0.1);
+}
+
+.ministry {
+  padding: 22px 18px 18px;
+  cursor: pointer;
+}
+.ministry-holo {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.ministry:hover .ministry-holo { opacity: 1; }
+
+.ministry-icon-wrap {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(124,58,237,0.15);
+}
+.ministry-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.ministry-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.ministry-tag {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(124,58,237,0.25);
+  color: #c084fc;
+  background: rgba(88,28,135,0.15);
+}
+
+/* ═══════════════════════════════════════════
+   FEED + SIDEBAR
+═══════════════════════════════════════════ */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  margin-top: 0;
+}
+
+/* Emergency */
+.emergency {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(239,68,68,0.25);
+  background: rgba(239,68,68,0.05);
+  margin-bottom: 16px;
+}
+.alert-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f87171;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.alert-body { font-size: 13px; color: rgba(252,165,165,0.7); line-height: 1.5; margin-bottom: 10px; }
+.alert-btn {
+  background: none;
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #f87171;
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.alert-btn:hover { background: rgba(239,68,68,0.1); }
+
+/* Feed posts */
+.feed-post { padding: 20px; margin-bottom: 14px; }
+.post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.post-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.post-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.post-badge {
+  font-family: 'Orbitron', monospace;
+  font-size: 7px;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+.badge-official { background: rgba(88,28,135,0.3); color: #c084fc; border: 1px solid rgba(192,132,252,0.25); }
+.badge-meme     { background: rgba(112,26,117,0.3); color: #f472b6; border: 1px solid rgba(244,114,182,0.25); }
+.badge-live     { background: rgba(6,78,59,0.3); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.post-time { font-size: 11px; color: rgba(167,139,250,0.35); margin-left: auto; }
+.post-body { font-size: 14px; color: rgba(221,214,254,0.8); line-height: 1.6; margin-bottom: 12px; }
+.post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.post-tag {
+  font-size: 11px;
+  color: rgba(168,85,247,0.6);
+  background: rgba(88,28,135,0.12);
+  border: 1px solid rgba(124,58,237,0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.post-actions { display: flex; gap: 6px; }
+.post-action {
+  background: none;
+  border: 1px solid rgba(124,58,237,0.12);
+  color: var(--text-dim);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.post-action:hover { border-color: var(--border-lg); color: var(--text); background: rgba(124,58,237,0.08); }
+
+/* Sidebar */
+.sidebar-card { padding: 20px; margin-bottom: 14px; }
+.sidebar-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(168,85,247,0.5);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.profile-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.profile-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  background: rgba(88,28,135,0.3);
+  border: 1px solid var(--border-lg);
+  box-shadow: 0 0 20px rgba(124,58,237,0.2);
+}
+.profile-name { font-family: 'Orbitron', monospace; font-size: 12px; font-weight: 700; color: var(--text); }
+.profile-bio { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+.profile-stats { display: flex; gap: 0; margin-bottom: 16px; }
+.pstat { flex: 1; text-align: center; border-right: 1px solid rgba(124,58,237,0.1); }
+.pstat:last-child { border-right: none; }
+.pstat-val { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: var(--text); }
+.pstat-key { font-size: 8px; letter-spacing: 2px; color: var(--text-dim); margin-top: 3px; }
+.xp-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-dim); margin-bottom: 6px; }
+.xp-track { height: 4px; border-radius: 2px; background: rgba(124,58,237,0.12); overflow: hidden; }
+.xp-fill  { height: 100%; width: 65%; background: linear-gradient(90deg, #7c3aed, #a855f7); border-radius: 2px; }
+
+.streak-display { text-align: center; margin: 12px 0 16px; }
+.streak-flame { font-size: 28px; }
+.streak-num { font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 900; color: var(--text); margin: 0 8px; }
+.streak-label { font-size: 11px; color: var(--text-dim); }
+.btn-checkin {
+  width: 100%; padding: 12px;
+  border-radius: 10px; border: none;
+  background: linear-gradient(135deg, #5b21b6, #7c3aed);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 0 20px rgba(124,58,237,0.3);
+}
+.btn-checkin:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(124,58,237,0.5); }
+
+.mission {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(124,58,237,0.08);
+  cursor: pointer; transition: all 0.2s;
+}
+.mission:last-of-type { border-bottom: none; }
+.mission:hover { opacity: 0.8; }
+.mission-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(124,58,237,0.3);
+  background: rgba(88,28,135,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #a855f7;
+  flex-shrink: 0;
+}
+.mission-check.done { background: rgba(88,28,135,0.4); border-color: rgba(168,85,247,0.5); }
+.mission-text { font-size: 12px; color: rgba(196,181,253,0.7); flex: 1; }
+.mission-pts { font-family: 'Orbitron', monospace; font-size: 9px; color: #a855f7; }
+.missions-footer { font-size: 10px; color: rgba(167,139,250,0.35); text-align: center; margin-top: 12px; }
+
+.poll-q { font-size: 14px; color: var(--text); margin-bottom: 14px; line-height: 1.5; }
+.poll-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(88,28,135,0.06);
+  margin-bottom: 8px; cursor: pointer;
+  transition: all 0.2s; position: relative; overflow: hidden;
+}
+.poll-option:hover { border-color: var(--border-lg); background: rgba(88,28,135,0.12); }
+.poll-fill {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: rgba(124,58,237,0.08);
+  transition: width 0.6s ease;
+}
+.poll-text { font-size: 13px; color: var(--text); position: relative; z-index: 1; flex: 1; }
+.poll-pct { font-family: 'Orbitron', monospace; font-size: 11px; color: #a855f7; position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  margin-top: 60px;
+  padding: 40px 48px;
+  border-top: 1px solid rgba(124,58,237,0.10);
+  text-align: center;
+}
+.footer-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: rgba(196,181,253,0.35);
+  margin-bottom: 8px;
+}
+.footer-sub {
+  font-size: 12px;
+  color: rgba(167,139,250,0.25);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(14,8,32,0.95);
+  border: 1px solid rgba(168,85,247,0.3);
+  color: #c4b5fd;
+  font-size: 13px;
+  padding: 12px 24px;
+  border-radius: 30px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.3s;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(124,58,237,0.2);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   PASSPORT MODAL (preserved from original)
+═══════════════════════════════════════════ */
+#pp-modal {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 20000;
+  background: rgba(4,2,12,0.92);
+  backdrop-filter: blur(24px);
+  overflow-y: auto;
+  padding: 60px 20px 80px;
+}
+.pp-inner {
+  width: 100%; max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+}
+.aff-opt:hover {
+  border-color: rgba(139,92,246,0.5) !important;
+  background: rgba(88,28,135,0.2) !important;
+  box-shadow: 0 0 20px rgba(124,58,237,0.15);
+}
+.aff-opt.selected {
+  border-color: rgba(139,92,246,0.7) !important;
+  background: rgba(88,28,135,0.35) !important;
+  box-shadow: 0 0 24px rgba(124,58,237,0.25);
+}
+
+/* ═══════════════════════════════════════════
+   GOLDEN ARENA & DDAY & MUSE MODALS (preserved)
+═══════════════════════════════════════════ */
+#ga-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 15000;
+}
+#ga-modal.open { display: block; }
+#ga-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4,2,12,0.88);
+  backdrop-filter: blur(8px);
+}
+#ga-panel {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 900px);
+  max-height: 90vh;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(251,191,36,0.2);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 60px rgba(251,191,36,0.1);
+}
+#ga-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #0d0600, #1a0a00, #0a0404);
+}
+#ga-bg-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(251,191,36,0.12), transparent 60%);
+}
+#ga-scanlines {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px);
+  pointer-events: none;
+}
+#ga-glow-bottom {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(to top, rgba(251,191,36,0.08), transparent);
+}
+#ga-close {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(0,0,0,0.4); border: 1px solid rgba(251,191,36,0.2);
+  color: rgba(253,230,138,0.6); font-size: 14px; cursor: pointer; transition: all 0.2s;
+}
+#ga-close:hover { background: rgba(0,0,0,0.7); color: #fde68a; }
+#ga-content {
+  position: relative; z-index: 5; padding: 48px;
+  overflow-y: auto; max-height: 90vh;
+}
+.ga-eyebrow { font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 3px; color: rgba(251,191,36,0.5); margin-bottom: 10px; }
+.ga-title { font-family: 'Orbitron', monospace; font-size: clamp(28px,4vw,48px); font-weight: 900; background: linear-gradient(135deg, #fde68a, #fbbf24, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 14px; }
+.ga-live-badge { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px; border-radius: 20px; background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); color: #fbbf24; font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 2px; margin-bottom: 20px; }
+.ga-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #fbbf24; animation: blink 1.5s infinite; }
+.ga-subtitle { font-size: 14px; color: rgba(253,230,138,0.55); line-height: 1.7; margin-bottom: 28px; }
+.ga-stats { display: flex; gap: 32px; margin-bottom: 32px; }
+.ga-stat-n { display: block; font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 900; color: #fde68a; }
+.ga-stat-l { font-size: 9px; letter-spacing: 2px; color: rgba(251,191,36,0.4); }
+.ga-btn { padding: 14px 32px; border-radius: 12px; border: none; background: linear-gradient(135deg, #92400e, #d97706, #fbbf24); color: #0d0600; font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 900; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
+.ga-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(251,191,36,0.4); }
+
+/* D-Day Studios */
+#dday-modal { display: none; position: fixed; inset: 0; z-index: 15000; }
+#dday-modal.open { display: block; }
+#dday-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); }
+#dday-panel { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(90vw,900px); max-height: 90vh; border-radius: 20px; overflow: hidden; border: 1px solid rgba(103,232,249,0.15); box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 50px rgba(103,232,249,0.08); }
+#dday-bg { position: absolute; inset: 0; background: linear-gradient(160deg, #000005, #04040c, #000000); }
+#dday-bg-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(103,232,249,0.05), transparent 55%), radial-gradient(ellipse at 70% 40%, rgba(139,92,246,0.04), transparent 50%); }
+#dday-close { position: absolute; top: 16px; right: 16px; z-index: 10; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.5); border: 1px solid rgba(103,232,249,0.15); color: rgba(103,232,249,0.5); font-size: 14px; cursor: pointer; transition: all 0.2s; }
+#dday-close:hover { color: #67e8f9; }
+#dday-content { position: relative; z-index: 5; padding: 48px; overflow-y: auto; max-height: 90vh; }
+.dday-eyebrow { font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 3px; color: rgba(103,232,249,0.4); margin-bottom: 10px; }
+.dday-title { font-family: 'Orbitron', monospace; font-size: clamp(28px,4vw,48px); font-weight: 900; background: linear-gradient(135deg, #e4e4e7, #a1a1aa, #67e8f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 14px; }
+
+/* Muse Theater */
+#muse-modal { display: none; position: fixed; inset: 0; z-index: 15000; }
+#muse-modal.open { display: block; }
+#muse-backdrop { position: absolute; inset: 0; background: rgba(4,2,12,0.90); backdrop-filter: blur(10px); }
+#muse-panel { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(90vw,900px); max-height: 90vh; border-radius: 20px; overflow: hidden; border: 1px solid rgba(192,132,252,0.2); box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 50px rgba(192,132,252,0.12); }
+#muse-bg { position: absolute; inset: 0; background: linear-gradient(160deg, #0d0518, #180830, #0a0314); }
+#muse-close { position: absolute; top: 16px; right: 16px; z-index: 10; width: 34px; height: 34px; border-radius: 50%; background: rgba(14,8,32,0.6); border: 1px solid rgba(192,132,252,0.2); color: rgba(192,132,252,0.5); font-size: 14px; cursor: pointer; transition: all 0.2s; }
+#muse-close:hover { color: #c084fc; }
+#muse-content { position: relative; z-index: 5; padding: 48px; overflow-y: auto; max-height: 90vh; }
+.muse-eyebrow { font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 3px; color: rgba(192,132,252,0.45); margin-bottom: 10px; }
+.muse-title { font-family: 'Orbitron', monospace; font-size: clamp(28px,4vw,48px); font-weight: 900; background: linear-gradient(135deg, #f3e8ff, #c084fc, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 14px; }
+.muse-subtitle { font-size: 14px; color: rgba(233,213,255,0.45); line-height: 1.7; margin-bottom: 28px; }
+.muse-stats { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.muse-stat { display: flex; flex-direction: column; gap: 3px; }
+.muse-stat-icon { font-size: 18px; }
+.muse-stat-n { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; color: #e9d5ff; }
+.muse-stat-l { font-size: 9px; letter-spacing: 2px; color: rgba(192,132,252,0.4); }
+.muse-divider { height: 1px; background: rgba(192,132,252,0.1); margin: 24px 0; }
+.muse-gallery-title { font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 3px; color: rgba(192,132,252,0.45); margin-bottom: 14px; }
+.muse-gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+.muse-gallery-item { padding: 16px 12px; border-radius: 10px; border: 1px solid rgba(192,132,252,0.12); background: rgba(88,28,135,0.08); text-align: center; cursor: pointer; transition: all 0.2s; }
+.muse-gallery-item:hover { border-color: rgba(192,132,252,0.3); background: rgba(88,28,135,0.18); }
+.muse-gallery-icon { display: block; font-size: 22px; margin-bottom: 6px; }
+.muse-gallery-name { display: block; font-size: 11px; color: rgba(233,213,255,0.7); margin-bottom: 3px; }
+.muse-gallery-count { display: block; font-family: 'Orbitron', monospace; font-size: 11px; color: #c084fc; }
+
+/* bottom zone for muse */
+.muse-text-zone { margin-bottom: 12px; }
+.muse-bottom-zone {}
+
+/* Under construction card */
+.monument-card--wip {
+  position: relative;
+  overflow: hidden;
+}
+.wip-blur {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px) brightness(0.4);
+  -webkit-backdrop-filter: blur(6px) brightness(0.4);
+  z-index: 3;
+}
+.wip-label {
+  position: relative;
+  z-index: 4;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(196,181,253,0.5);
+  text-align: center;
+  padding: 0 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-crown"><img src="icon_tpr.png" alt="The Purple Republic"></div>
+    <div class="nav-wordmark">
+      <div class="nav-title">THE PURPLE REPUBLIC</div>
+      <div class="nav-sub">UNITED BY BANGTAN · POWERED BY PURPLE 💜</div>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <button class="nav-link active" onclick="setActive(this)">Home</button>
+    <button class="nav-link" onclick="setActive(this)">Monuments</button>
+    <button class="nav-link" onclick="setActive(this)">Government</button>
+    <button class="nav-link" onclick="setActive(this);window.location.href='purple_republic_profile.html'">Citizens</button>
+    <button class="nav-link" onclick="setActive(this)">News</button>
+    <button class="nav-link" onclick="setActive(this)">Events</button>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-icon-btn" title="Buscar">🔍</button>
+    <button class="nav-icon-btn" title="Notificaciones">🔔</button>
+    <button class="nav-citizenship" onclick="openPP()">
+      <span class="nav-citizenship-dot"></span>
+      REQUEST CITIZENSHIP
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <img class="hero-img" src="banner_hero3.png" alt="The Purple Republic — ciudad nocturna violeta">
+  <div class="hero-veil"></div>
+
+  <!-- Stats bar overlaid at the very bottom of the hero -->
+  <div class="stats-bar stats-bar--hero">
+    <div class="stat-item"><div class="stat-num">125,987</div><div class="stat-label">Total Citizens</div></div>
+    <div class="stat-item"><div class="stat-num stat-live" id="sOnline">8,742</div><div class="stat-label">Online Now</div></div>
+    <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Purple Hearts</div></div>
+    <div class="stat-item"><div class="stat-num">117</div><div class="stat-label">From All Over The World</div></div>
+    <div class="stat-item"><div class="stat-num">34</div><div class="stat-label">Monuments & Places</div></div>
+    <div class="stat-item"><div class="stat-num">12K+</div><div class="stat-label">Memes Created</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     MONUMENTOS — 2 rows × 7 cards
+═══════════════════════════════════════════════ -->
+<div class="section" style="padding-top:0">
+
+
+  <div class="monuments-rows">
+
+    <!-- ROW 1: Golden Arena · D-Day Studios · Muse Theater · Indigo Library · JITB Dance School · Echo Observatory · Layover Skyline Hall -->
+    <div class="monuments-row">
+
+      <div class="monument-card golden monument-card--img" style="background-image:url('golden_arena.png');background-size:cover;background-position:center 60%;" onclick="openGoldenArena()">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img">Golden Arena</div>
+        <a class="monument-enter-link" onclick="openGoldenArena()">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card dday monument-card--img" style="background-image:url('d_day-studios.png');background-size:cover;background-position:center center;" onclick="openDDayStudios()">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:rgba(103,232,249,0.6)">D-Day Studios</div>
+        <a class="monument-enter-link" style="color:rgba(103,232,249,0.6);border-color:rgba(103,232,249,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card muse monument-card--img" style="background-image:url('muse_theater.png');background-size:cover;background-position:center center;" onclick="openMuseTheater()">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#fef08a;text-shadow:0 0 12px rgba(254,240,138,0.4)">Muse Theater</div>
+        <a class="monument-enter-link" style="color:rgba(254,240,138,0.6);border-color:rgba(254,240,138,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('indigo_library.png');background-size:cover;background-position:center center;" onclick="toast('🌿 Indigo Library — silencio y profundidad')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#e2e8f0;text-shadow:0 0 12px rgba(255,255,255,0.4)">Indigo Library</div>
+        <a class="monument-enter-link" style="color:rgba(226,232,240,0.7);border-color:rgba(226,232,240,0.3)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('jit_box.png');background-size:cover;background-position:center center;" onclick="toast('☀️ JITB Dance School — the floor is yours')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#e879f9;text-shadow:0 0 12px rgba(232,121,249,0.4)">JITB Dance School</div>
+        <a class="monument-enter-link" style="color:rgba(232,121,249,0.6);border-color:rgba(232,121,249,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('echo_obervatory.png');background-size:cover;background-position:center center;" onclick="toast('🌊 Echo Observatory — under the violet sky')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:rgba(244,114,182,0.9)">Echo Observatory</div>
+        <a class="monument-enter-link" style="color:rgba(244,114,182,0.6);border-color:rgba(244,114,182,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('layover_skyline.png');background-size:cover;background-position:center center;" onclick="toast('🐯 Layover Skyline Hall — last song, last light')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#86efac;text-shadow:0 0 12px rgba(134,239,172,0.4)">Layover Skyline Hall</div>
+        <a class="monument-enter-link" style="color:rgba(134,239,172,0.6);border-color:rgba(134,239,172,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+    </div><!-- /row 1 -->
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     STREETS
+═══════════════════════════════════════════════ -->
+<div class="section" style="padding-top:52px">
+  <div class="section-header" style="margin-bottom:24px">
+    <div class="section-header-left">
+      <div class="section-eyebrow">The Purple Republic</div>
+      <div class="section-heading">Important <em>Places</em></div>
+    </div>
+  </div>
+  <div class="monuments-rows">
+    <div class="monuments-row">
+
+      <div class="monument-card monument-card--img" style="background-image:url('butterfly_District3.png');background-size:cover;background-position:center center;" onclick="toast('🦋 Butterfly District')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#d8b4fe;text-shadow:0 0 12px rgba(216,180,254,0.5)">Butterfly District</div>
+        <a class="monument-enter-link" style="color:rgba(216,180,254,0.6);border-color:rgba(216,180,254,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('hooligan_underground.png');background-size:cover;background-position:center center;" onclick="toast('🎸 Hooligan Underground')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#a855f7;text-shadow:0 0 12px rgba(168,85,247,0.6)">Hooligan Underground</div>
+        <a class="monument-enter-link" style="color:rgba(168,85,247,0.6);border-color:rgba(168,85,247,0.3)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('life_goes_on_plaza.png');background-size:cover;background-position:center center;" onclick="toast('🦋 Life Goes On Plaza')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#c4b5fd;text-shadow:0 0 12px rgba(196,181,253,0.5)">Life Goes On Plaza</div>
+        <a class="monument-enter-link" style="color:rgba(196,181,253,0.6);border-color:rgba(196,181,253,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('young_forever_tower.png');background-size:cover;background-position:center center;" onclick="toast('🏰 Young Forever Tower')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#ddd6fe;text-shadow:0 0 12px rgba(221,214,254,0.5)">Young Forever Tower</div>
+        <a class="monument-enter-link" style="color:rgba(221,214,254,0.6);border-color:rgba(221,214,254,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('spring_day_moderna.png');background-size:cover;background-position:center center;" onclick="toast('🌸 Spring Day Street')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#f0abfc;text-shadow:0 0 12px rgba(240,171,252,0.5)">Spring Day Street</div>
+        <a class="monument-enter-link" style="color:rgba(240,171,252,0.6);border-color:rgba(240,171,252,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+
+      <div class="monument-card monument-card--img" style="background-image:url('swim_fuente_moderna.png');background-size:cover;background-position:center center;" onclick="toast('🌊 Swim Fountain')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#a5f3fc;text-shadow:0 0 12px rgba(165,243,252,0.5)">Swim Fountain</div>
+        <a class="monument-enter-link" style="color:rgba(165,243,252,0.6);border-color:rgba(165,243,252,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('magic_shop3.png');background-size:cover;background-position:center center;" onclick="toast('🌌 Magic Shop')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#c4b5fd;text-shadow:0 0 12px rgba(196,181,253,0.5)">Magic Shop</div>
+        <a class="monument-enter-link" style="color:rgba(196,181,253,0.6);border-color:rgba(196,181,253,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+    </div><!-- /streets row -->
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OFFICIAL MINISTRIES
+═══════════════════════════════════════════════ -->
+<div class="section" style="padding-top:52px">
+  <div class="section-header" style="margin-bottom:24px">
+    <div class="section-header-left">
+      <div class="section-eyebrow">The Purple Republic</div>
+      <div class="section-heading">Ministries of the <em>Republic</em></div>
+    </div>
+  </div>
+  <div class="monuments-rows">
+
+    <!-- MINISTRIES ROW 1 -->
+    <div class="monuments-row">
+
+      <div class="monument-card monument-card--img" style="background-image:url('Ministry_of_purple_affaires.png');background-size:cover;background-position:center center;" onclick="toast('🏛️ Ministry of Purple Affairs')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#c4b5fd;text-shadow:0 0 12px rgba(196,181,253,0.5)">Ministry of Purple Affairs</div>
+        <a class="monument-enter-link" style="color:rgba(196,181,253,0.6);border-color:rgba(196,181,253,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('ministry_of_stream2.png');background-size:cover;background-position:center center;" onclick="toast('📡 Ministry of Stream')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#a855f7;text-shadow:0 0 12px rgba(168,85,247,0.5)">Ministry of Stream</div>
+        <a class="monument-enter-link" style="color:rgba(168,85,247,0.6);border-color:rgba(168,85,247,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('ministry_of_vote.png');background-size:cover;background-position:center center;" onclick="toast('🗳️ Ministry of Vote')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,0.5)">Ministry of Vote</div>
+        <a class="monument-enter-link" style="color:rgba(251,191,36,0.6);border-color:rgba(251,191,36,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('ministry_of_events.png');background-size:cover;background-position:center center;" onclick="toast('📅 Ministry of Events')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#fde68a;text-shadow:0 0 12px rgba(253,230,138,0.5)">Ministry of Events</div>
+        <a class="monument-enter-link" style="color:rgba(253,230,138,0.6);border-color:rgba(253,230,138,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+      <div class="monument-card monument-card--img" style="background-image:url('ministry-of-eras.png');background-size:cover;background-position:center center;" onclick="toast('⏳ Ministry of Eras')">
+        <div class="monument-card-img-veil"></div>
+        <div class="monument-name monument-name--img" style="color:#e9d5ff;text-shadow:0 0 12px rgba(233,213,255,0.5)">Ministry of Eras</div>
+        <a class="monument-enter-link" style="color:rgba(233,213,255,0.6);border-color:rgba(233,213,255,0.25)">ENTER &nbsp;↓</a>
+      </div>
+
+
+
+      <div class="monument-card monument-card--img monument-card--wip" style="background-image:url('ministry_of_vote.png');background-size:cover;background-position:center center;cursor:default;">
+        <div class="monument-card-img-veil" style="background:rgba(4,2,12,0.55)"></div>
+        <div class="wip-blur"></div>
+        <div class="wip-label">🚧 Under Construction</div>
+      </div>
+
+    </div><!-- /ministries row 1 -->
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-title">THE PURPLE REPUBLIC</div>
+  <div class="footer-sub">United by Bangtan · Powered by Purple 💜<br>A safe place for ARMY to laugh, scream, vote, stream and survive together.</div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toastEl"></div>
+
+<!-- ══════════════════════════════════════════════
+     PASSPORT MODAL (preserved intact)
+═══════════════════════════════════════════════ -->
+<div id="pp-modal">
+  <div class="pp-inner">
+
+    <button onclick="closePP()" style="position:fixed;top:20px;right:24px;background:rgba(107,109,158,0.15);border:1px solid rgba(160,163,210,0.15);color:#b0b3d6;font-size:18px;cursor:pointer;z-index:10;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center">✕</button>
+
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="width:56px;height:56px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);background:radial-gradient(circle,rgba(201,168,76,0.1),rgba(109,40,217,0.08));display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px;box-shadow:0 0 20px rgba(201,168,76,0.1)">👑</div>
+      <div style="font-family:'Orbitron',monospace;font-size:11px;color:#c9a84c;letter-spacing:5px;text-transform:uppercase;margin-bottom:4px">The Purple Republic</div>
+      <div style="font-family:monospace;font-size:9px;color:rgba(167,139,250,0.4);letter-spacing:3px">Ministry of Citizenship · Official Passports</div>
+    </div>
+
+    <div id="pp-progress" style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:36px">
+      <div id="ppn1" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="width:36px;height:36px;border-radius:50%;border:1px solid #8b5cf6;background:linear-gradient(135deg,#3b1f6e,#6d28d9);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:#fff;box-shadow:0 0 15px rgba(139,92,246,0.4)">01</div>
+        <div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#a78bfa;text-transform:uppercase">Identidad</div>
+      </div>
+      <div id="ppl1" style="width:70px;height:1px;background:rgba(139,92,246,0.15);position:relative;top:-12px"></div>
+      <div id="ppn2" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(139,92,246,0.25);background:rgba(139,92,246,0.06);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:rgba(139,92,246,0.35)">02</div>
+        <div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:rgba(139,92,246,0.3);text-transform:uppercase">Afinidad</div>
+      </div>
+      <div id="ppl2" style="width:70px;height:1px;background:rgba(139,92,246,0.15);position:relative;top:-12px"></div>
+      <div id="ppn3" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(139,92,246,0.25);background:rgba(139,92,246,0.06);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;color:rgba(139,92,246,0.35)">✦</div>
+        <div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:rgba(139,92,246,0.3);text-transform:uppercase">Pasaporte</div>
+      </div>
+    </div>
+
+    <!-- PANEL 1: IDENTIDAD -->
+    <div id="pp-p1">
+      <div style="margin-bottom:24px">
+        <div style="font-family:monospace;font-size:9px;color:#c9a84c;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">Form A-1</div>
+        <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:#ede9fe">Your <span style="color:#a78bfa">Identidad</span></div>
+        <div style="font-size:13px;color:rgba(167,139,250,0.45);font-style:italic;margin-top:6px">Every citizen has a name in the Republic.</div>
+      </div>
+      <div style="margin-bottom:18px">
+        <label style="display:block;font-family:monospace;font-size:9px;color:#c9a84c;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Citizen name</label>
+        <input id="pp-username" type="text" placeholder="Your name in the Republic..." maxlength="30"
+          style="width:100%;padding:14px 16px;border-radius:10px;border:1px solid rgba(139,92,246,0.2);background:rgba(14,11,31,0.8);color:#ede9fe;font-size:14px;outline:none;transition:border-color .3s;font-family:'Inter',sans-serif"
+          oninput="ppCheckStep1()" onfocus="this.style.borderColor='rgba(139,92,246,0.5)'" onblur="this.style.borderColor='rgba(139,92,246,0.2)'">
+      </div>
+      <div style="margin-bottom:24px">
+        <label style="display:block;font-family:monospace;font-size:9px;color:#c9a84c;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Nation of origin</label>
+        <input id="pp-country" type="text" placeholder="Your country..." maxlength="40"
+          style="width:100%;padding:14px 16px;border-radius:10px;border:1px solid rgba(139,92,246,0.2);background:rgba(14,11,31,0.8);color:#ede9fe;font-size:14px;outline:none;transition:border-color .3s;font-family:'Inter',sans-serif"
+          oninput="ppCheckStep1()" onfocus="this.style.borderColor='rgba(139,92,246,0.5)'" onblur="this.style.borderColor='rgba(139,92,246,0.2)'">
+      </div>
+      <button id="pp-step1-btn" onclick="ppGoStep(2)" disabled
+        style="width:100%;padding:16px;border:none;border-radius:12px;cursor:not-allowed;background:linear-gradient(135deg,#3b1f6e,#6d28d9,#8b5cf6);color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;opacity:0.35;transition:all .3s">
+        CONTINUE →
+      </button>
+    </div>
+
+    <!-- PANEL 2: AFINIDAD -->
+    <div id="pp-p2" style="display:none">
+      <div style="margin-bottom:24px">
+        <div style="font-family:monospace;font-size:9px;color:#c9a84c;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">Form A-2</div>
+        <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:#ede9fe">Choose your <span style="color:#a78bfa">División</span></div>
+        <div style="font-size:13px;color:rgba(167,139,250,0.45);font-style:italic;margin-top:6px">Your affinity determines your region within the Republic.</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:20px">
+        <div class="aff-opt" onclick="ppSelectAff(this,'jk','⚡','Jungkook Division','Cyberpunk · gaming · neons')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">⚡</div>
+          <div style="font-family:monospace;font-size:8px;color:#a78bfa;letter-spacing:2px;margin-bottom:6px">JK DIVISION</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Jungkook</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Cyberpunk · gaming · neons</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'jm','🌙','Jimin District','Art · moon · dance · elegance')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">🌙</div>
+          <div style="font-family:monospace;font-size:8px;color:#f9a8d4;letter-spacing:2px;margin-bottom:6px">JIMIN DISTRICT</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Jimin</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Art · moon · dance · elegance</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'rm','📚','Namjoon Archives','Philosophy · art · thinking')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">📚</div>
+          <div style="font-family:monospace;font-size:8px;color:#7dd3fc;letter-spacing:2px;margin-bottom:6px">RM ARCHIVES</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Namjoon</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Philosophy · art · thinking</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'jh','🎪','Hobi Energy Sector','Dance · festival · solar energy')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">🎪</div>
+          <div style="font-family:monospace;font-size:8px;color:#fcd34d;letter-spacing:2px;margin-bottom:6px">HOBI SECTOR</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">J-Hope</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Dance · festival · solar energy</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'jin','🏛️','Jin Embassy','Diplomacy · luxury · worldwide')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">🏛️</div>
+          <div style="font-family:monospace;font-size:8px;color:#5eead4;letter-spacing:2px;margin-bottom:6px">JIN EMBASSY</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Jin</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Diplomacy · luxury · worldwide</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'sg','🎹','Yoongi Underground','Night studio · raw music')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">🎹</div>
+          <div style="font-family:monospace;font-size:8px;color:#d1d5db;letter-spacing:2px;margin-bottom:6px">UNDERGROUND</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Yoongi</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Night studio · raw music</div>
+        </div>
+        <div class="aff-opt" onclick="ppSelectAff(this,'tae','🎨','Taehyung Atelier','Photography · fashion · jazz · art')" style="cursor:pointer;border-radius:14px;border:1px solid rgba(139,92,246,0.15);background:rgba(14,11,31,0.7);padding:20px 14px;transition:all .3s">
+          <div style="font-size:26px;margin-bottom:10px">🎨</div>
+          <div style="font-family:monospace;font-size:8px;color:#fde68a;letter-spacing:2px;margin-bottom:6px">TAE ATELIER</div>
+          <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#c4b5fd;margin-bottom:4px">Taehyung</div>
+          <div style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">Photography · fashion · jazz · art</div>
+        </div>
+      </div>
+
+      <button id="pp-emit-btn" onclick="ppEmit()" disabled style="width:100%;padding:16px;border:none;border-radius:12px;cursor:not-allowed;background:linear-gradient(135deg,#3b1f6e,#6d28d9,#8b5cf6);color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;opacity:0.35;transition:all .3s">
+        ISSUE PASSPORT 💜
+      </button>
+      <button onclick="ppGoStep(1)" style="width:100%;padding:12px;border-radius:12px;cursor:pointer;background:transparent;border:1px solid rgba(139,92,246,0.2);color:rgba(167,139,250,0.5);font-family:monospace;font-size:11px;letter-spacing:2px;transition:all .3s;margin-top:10px">← Back</button>
+    </div>
+
+    <!-- PANEL 3: PASAPORTE -->
+    <div id="pp-p3" style="display:none">
+      <div style="text-align:center;margin-bottom:28px">
+        <div style="font-family:monospace;font-size:9px;letter-spacing:4px;color:#c9a84c;opacity:0.7;margin-bottom:8px">— Passport Issued —</div>
+        <div style="font-family:'Orbitron',monospace;font-size:26px;font-weight:900;color:#ede9fe">Citizenship <span style="color:#a78bfa">Concedida</span></div>
+        <div style="font-size:14px;color:rgba(167,139,250,0.4);font-style:italic;margin-top:6px">The Republic has been waiting for you. 💜</div>
+      </div>
+
+      <div style="border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 50px rgba(139,92,246,0.3)">
+        <div style="background:linear-gradient(160deg,#1a0a3d,#0e0622,#180b38);border:1px solid rgba(201,168,76,0.25);padding:32px;position:relative;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+            <div style="font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:#c9a84c;opacity:0.8">THE PURPLE REPUBLIC</div>
+            <div style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,168,76,0.3);background:radial-gradient(circle,rgba(201,168,76,0.1),rgba(109,40,217,0.08));display:flex;align-items:center;justify-content:center;font-size:20px">👑</div>
+            <div id="pp-year" style="font-family:monospace;font-size:9px;color:rgba(201,168,76,0.4)">2026</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:monospace;font-size:9px;letter-spacing:4px;color:#c9a84c;opacity:0.6;margin-bottom:6px">PASAPORTE OFICIAL · CIUDADANA ARMY</div>
+            <div style="font-family:'Orbitron',monospace;font-size:clamp(22px,4vw,30px);font-weight:900;background:linear-gradient(135deg,#fff,#c4b5fd,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px">PURPLE REPUBLIC</div>
+            <div style="font-size:13px;color:rgba(196,181,253,0.45);font-style:italic">United by Bangtan · Powered by Purple</div>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(160deg,#0a0719,#060410);border-top:1px solid rgba(201,168,76,0.12);padding:28px;position:relative">
+          <div style="display:flex;gap:18px;margin-bottom:20px">
+            <div style="width:88px;height:108px;border-radius:8px;border:1px solid rgba(201,168,76,0.25);background:rgba(139,92,246,0.05);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0" id="pp-photo-box">💜</div>
+            <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+              <div><div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#c9a84c;opacity:0.6;margin-bottom:2px">NOMBRE</div><div id="pp-r-username" style="font-size:15px;color:#ede9fe;font-weight:500">—</div></div>
+              <div><div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#c9a84c;opacity:0.6;margin-bottom:2px">NACIÓN</div><div id="pp-r-country" style="font-size:15px;color:#ede9fe">—</div></div>
+              <div><div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#c9a84c;opacity:0.6;margin-bottom:2px">EMISIÓN</div><div id="pp-r-date" style="font-size:13px;color:#ede9fe">—</div></div>
+              <div><div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#c9a84c;opacity:0.6;margin-bottom:2px">PASAPORTE Nº</div><div id="pp-r-id" style="font-family:monospace;font-size:11px;color:#a78bfa;letter-spacing:1px">—</div></div>
+            </div>
+          </div>
+
+          <div style="height:1px;background:rgba(201,168,76,0.08);margin-bottom:16px"></div>
+
+          <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:10px;border:1px solid rgba(139,92,246,0.12);background:rgba(139,92,246,0.04);margin-bottom:16px">
+            <div id="pp-r-icon" style="font-size:24px">💜</div>
+            <div>
+              <div style="font-family:monospace;font-size:8px;letter-spacing:2px;color:#c9a84c;opacity:0.6">ASSIGNED REGION</div>
+              <div id="pp-r-aff" style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#c4b5fd">—</div>
+              <div id="pp-r-desc" style="font-size:11px;color:rgba(167,139,250,0.4);font-style:italic">—</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:30px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.18);font-family:monospace;font-size:11px;color:#a78bfa;margin-bottom:16px">
+            💜 &nbsp; 100 Welcome Purple Points credited
+          </div>
+
+          <div style="background:rgba(0,0,0,0.4);border-radius:6px;padding:10px 14px;border:1px solid rgba(139,92,246,0.08)">
+            <div id="pp-mrz1" style="font-family:monospace;font-size:9px;color:rgba(139,92,246,0.22);letter-spacing:2px">P&lt;PRK&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+            <div id="pp-mrz2" style="font-family:monospace;font-size:9px;color:rgba(139,92,246,0.22);letter-spacing:2px;margin-top:4px">PR0000000PRK000000001F00000000&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="closePP()" style="width:100%;padding:17px;border-radius:14px;border:none;cursor:pointer;background:linear-gradient(135deg,#3b1f6e,#6d28d9,#8b5cf6);color:#fff;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;box-shadow:0 0 40px rgba(139,92,246,0.4);transition:all .3s;margin-top:20px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        ENTER THE REPUBLIC →
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     GOLDEN ARENA MODAL
+═══════════════════════════════════════════════ -->
+<div id="ga-modal" role="dialog" aria-modal="true" aria-label="Golden Arena">
+  <div id="ga-backdrop" onclick="closeGoldenArena()"></div>
+  <div id="ga-panel">
+    <div id="ga-bg"></div>
+    <div id="ga-bg-overlay"></div>
+    <div id="ga-scanlines"></div>
+    <canvas id="ga-particles"></canvas>
+    <div id="ga-glow-bottom"></div>
+    <button id="ga-close" onclick="closeGoldenArena()" aria-label="Cerrar">✕</button>
+    <div id="ga-content">
+      <div class="ga-eyebrow">Monumento Legendario · The Purple Republic</div>
+      <div class="ga-title">Golden Arena</div>
+      <div class="ga-live-badge"><span class="ga-live-dot"></span>LIVE TONIGHT</div>
+      <div class="ga-subtitle">
+        La arena más grande de la República. Conciertos eternos, pantallas flotantes sobre la ciudad
+        y energía eléctrica en cada rincón. Victory is earned. Legacy is scented.<br>
+        <span style="color:rgba(220,215,255,0.60);font-size:13px">7 Hearts · 1 Arena · Infinite Legacy</span>
+      </div>
+      <div class="ga-stats">
+        <div class="ga-stat">
+          <span class="ga-stat-n">∞</span>
+          <span class="ga-stat-l">Conciertos</span>
+        </div>
+        <div class="ga-stat">
+          <span class="ga-stat-n" id="ga-live-num">87,420</span>
+          <span class="ga-stat-l">Aquí ahora</span>
+        </div>
+        <div class="ga-stat">
+          <span class="ga-stat-n">OT7</span>
+          <span class="ga-stat-l">On Stage</span>
+        </div>
+      </div>
+      <button class="ga-btn" onclick="toast('🏟️ Entering Golden Arena...');closeGoldenArena()">ENTER THE ARENA →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     D-DAY STUDIOS MODAL
+═══════════════════════════════════════════════ -->
+<div id="dday-modal" role="dialog" aria-modal="true">
+  <div id="dday-backdrop" onclick="closeDDayStudios()"></div>
+  <div id="dday-panel">
+    <div id="dday-bg"></div>
+    <div id="dday-bg-overlay"></div>
+    <button id="dday-close" onclick="closeDDayStudios()">✕</button>
+    <div id="dday-content">
+      <div class="dday-eyebrow">Estudio Subterráneo · The Purple Republic</div>
+      <div class="dday-title">D-DAY Studios</div>
+      <div style="font-size:14px;color:rgba(103,232,249,0.45);line-height:1.7;margin:14px 0 28px">
+        Estudios subterráneos ocultos bajo la República. Beats, madrugada, lluvia y producer energy infinita.
+      </div>
+      <button style="padding:14px 32px;border-radius:12px;border:1px solid rgba(103,232,249,0.3);background:rgba(103,232,249,0.05);color:#67e8f9;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s" onclick="toast('🖤 Entering D-DAY Studios...');closeDDayStudios()">ENTER THE STUDIO →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MUSE THEATER MODAL
+═══════════════════════════════════════════════ -->
+<div id="muse-modal" role="dialog" aria-modal="true">
+  <div id="muse-backdrop" onclick="closeMuseTheater()"></div>
+  <div id="muse-panel">
+    <div id="muse-bg"></div>
+    <button id="muse-close" onclick="closeMuseTheater()">✕</button>
+    <div id="muse-content">
+      <div class="muse-text-zone">
+        <div class="muse-eyebrow">Monumento Cultural · The Purple Republic</div>
+        <div class="muse-title">Muse Theater</div>
+      </div>
+      <div class="muse-bottom-zone">
+        <div class="muse-subtitle">
+          Donde el sentimiento toma forma.<br>Art, edits and beauty created by citizens of the Republic.
+        </div>
+        <div class="muse-stats">
+          <div class="muse-stat">
+            <span class="muse-stat-icon">🎨</span>
+            <span class="muse-stat-n" id="mt-artists">3,284</span>
+            <span class="muse-stat-l">Artists Online</span>
+          </div>
+          <div class="muse-stat">
+            <span class="muse-stat-icon">🖼️</span>
+            <span class="muse-stat-n">47K+</span>
+            <span class="muse-stat-l">Works Uploaded</span>
+          </div>
+          <div class="muse-stat">
+            <span class="muse-stat-icon">✨</span>
+            <span class="muse-stat-n" id="mt-featured">128</span>
+            <span class="muse-stat-l">Featured Today</span>
+          </div>
+          <div class="muse-stat">
+            <span class="muse-stat-icon">💜</span>
+            <span class="muse-stat-n">∞</span>
+            <span class="muse-stat-l">Emotion Created</span>
+          </div>
+        </div>
+        <div class="muse-divider"></div>
+        <div class="muse-gallery-area">
+          <div class="muse-gallery-title">Current Exhibition</div>
+          <div class="muse-gallery-grid">
+            <div class="muse-gallery-item" onclick="toast('🎨 Fanart Gallery — cada trazo cuenta')">
+              <span class="muse-gallery-icon">🎨</span>
+              <span class="muse-gallery-name">Fanart</span>
+              <span class="muse-gallery-count">18.4K</span>
+            </div>
+            <div class="muse-gallery-item" onclick="toast('✂️ Edits — arte en movimiento')">
+              <span class="muse-gallery-icon">✂️</span>
+              <span class="muse-gallery-name">Edits</span>
+              <span class="muse-gallery-count">12.1K</span>
+            </div>
+            <div class="muse-gallery-item" onclick="toast('🖥️ Wallpapers — viste tu pantalla')">
+              <span class="muse-gallery-icon">🖥️</span>
+              <span class="muse-gallery-name">Wallpapers</span>
+              <span class="muse-gallery-count">9.7K</span>
+            </div>
+            <div class="muse-gallery-item" onclick="toast('🌌 Arte Digital — sin límites')">
+              <span class="muse-gallery-icon">🌌</span>
+              <span class="muse-gallery-name">Arte Digital</span>
+              <span class="muse-gallery-count">7.2K</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+<script>
+// ── NAV active state ──
+function setActive(btn) {
+  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Toast ──
+function toast(msg) {
+  const t = document.getElementById('toastEl');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Online counter animation ──
+let online = 8742;
+setInterval(() => {
+  online += Math.floor(Math.random() * 11) - 4;
+  if (online < 8000) online = 8000;
+  const el = document.getElementById('sOnline');
+  if (el) el.textContent = online.toLocaleString();
+}, 4000);
+
+// ── Like post ──
+function likePost(btn) {
+  const span = btn.querySelector('span');
+  const n = parseInt(span.textContent.replace(/[^0-9]/g,'').replace(',',''));
+  span.textContent = (n + 1).toLocaleString();
+  btn.style.color = '#c084fc';
+}
+
+// ── Check-in ──
+let checkedIn = false;
+function doCheckin() {
+  if (checkedIn) return;
+  checkedIn = true;
+  const btn = document.getElementById('checkinBtn');
+  btn.textContent = 'CHECKED IN ✓';
+  btn.style.background = 'linear-gradient(135deg,#065f46,#047857)';
+  const s = document.getElementById('streakN');
+  s.textContent = parseInt(s.textContent) + 1;
+  const pts = document.getElementById('ptDisplay');
+  pts.textContent = (parseInt(pts.textContent.replace(',','')) + 25).toLocaleString();
+  toast('✅ Check-in completado! +25 pts');
+}
+
+// ── Missions ──
+function completeMission(el, pts) {
+  const check = el.querySelector('.mission-check');
+  if (check.classList.contains('done')) return;
+  check.classList.add('done');
+  check.textContent = '✓';
+  const ptEl = document.getElementById('ptDisplay');
+  ptEl.textContent = (parseInt(ptEl.textContent.replace(/,/g,'')) + pts).toLocaleString();
+  toast('💜 Misión completada! +' + pts + ' pts');
+}
+
+// ── Poll ──
+const pollData = [
+  { label: 'HYYH', pct: 38 },
+  { label: 'Wings', pct: 27 },
+  { label: 'Love Yourself', pct: 22 },
+  { label: 'Map of the Soul', pct: 13 }
+];
+function buildPoll() {
+  const wrap = document.getElementById('pollWrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  pollData.forEach((opt, i) => {
+    const d = document.createElement('div');
+    d.className = 'poll-option';
+    d.innerHTML = `<div class="poll-fill" style="width:${opt.pct}%"></div><span class="poll-text">${opt.label}</span><span class="poll-pct">${opt.pct}%</span>`;
+    d.onclick = () => voteFor(i);
+    wrap.appendChild(d);
+  });
+}
+function voteFor(idx) {
+  pollData[idx].pct = Math.min(100, pollData[idx].pct + 1);
+  const total = pollData.reduce((a,b) => a + b.pct, 0);
+  pollData.forEach(o => o.pct = Math.round(o.pct / total * 100));
+  buildPoll();
+  toast('🗳️ Voto registrado!');
+}
+buildPoll();
+
+// ── Passport modal ──
+function openPP() {
+  const m = document.getElementById('pp-modal');
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closePP() {
+  document.getElementById('pp-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function ppCheckStep1() {
+  const u = document.getElementById('pp-username').value.trim();
+  const c = document.getElementById('pp-country').value.trim();
+  const btn = document.getElementById('pp-step1-btn');
+  if (u.length >= 2 && c.length >= 2) {
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+  } else {
+    btn.disabled = true; btn.style.opacity = '0.35'; btn.style.cursor = 'not-allowed';
+  }
+}
+function ppGoStep(n) {
+  [1,2,3].forEach(i => {
+    const p = document.getElementById('pp-p'+i);
+    if (p) p.style.display = i === n ? 'block' : 'none';
+  });
+}
+let ppAff = null;
+function ppSelectAff(el, id, icon, name, desc) {
+  document.querySelectorAll('.aff-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  ppAff = { id, icon, name, desc };
+  const btn = document.getElementById('pp-emit-btn');
+  btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+}
+function ppEmit() {
+  if (!ppAff) return;
+  const username = document.getElementById('pp-username').value.trim();
+  const country  = document.getElementById('pp-country').value.trim();
+  document.getElementById('pp-r-username').textContent = username;
+  document.getElementById('pp-r-country').textContent  = country;
+  const now = new Date();
+  document.getElementById('pp-r-date').textContent = now.toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'});
+  const pid = 'PR' + Math.random().toString(36).substring(2,8).toUpperCase() + now.getFullYear();
+  document.getElementById('pp-r-id').textContent  = pid;
+  document.getElementById('pp-r-icon').textContent = ppAff.icon;
+  document.getElementById('pp-r-aff').textContent  = ppAff.name;
+  document.getElementById('pp-r-desc').textContent = ppAff.desc;
+  document.getElementById('pp-photo-box').textContent = ppAff.icon;
+  document.getElementById('pp-year').textContent = now.getFullYear();
+  document.getElementById('pp-mrz1').textContent = 'P<PRK' + username.toUpperCase().replace(/\s/g,'<').padEnd(39,'<').substring(0,39);
+  document.getElementById('pp-mrz2').textContent = pid + country.substring(0,3).toUpperCase().padEnd(3,'X') + '0000001' + '<'.repeat(10);
+  ppGoStep(3);
+  // activate step 3 indicator
+  const n3 = document.getElementById('ppn3').querySelector('div');
+  if (n3) { n3.style.border='1px solid #8b5cf6'; n3.style.background='linear-gradient(135deg,#3b1f6e,#6d28d9)'; n3.style.color='#fff'; n3.style.boxShadow='0 0 15px rgba(139,92,246,0.4)'; }
+}
+
+// ── Golden Arena ──
+function openGoldenArena() {
+  document.getElementById('ga-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGoldenArena() {
+  document.getElementById('ga-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── D-Day Studios ──
+function openDDayStudios() {
+  document.getElementById('dday-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDDayStudios() {
+  document.getElementById('dday-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Muse Theater ──
+function openMuseTheater() {
+  document.getElementById('muse-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMuseTheater() {
+  document.getElementById('muse-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Escape key closes modals ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closePP(); closeGoldenArena(); closeDDayStudios(); closeMuseTheater();
+  }
+});
+</script>
+</body>
+</html>
