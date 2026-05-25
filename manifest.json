@@ -1,0 +1,24 @@
+{
+  "name": "The Purple Republic",
+  "short_name": "Purple Republic",
+  "description": "The Purple Republic - Citizen Portal",
+  "start_url": "/purple_republic_profile.html",
+  "display": "standalone",
+  "background_color": "#04020a",
+  "theme_color": "#3d1a6e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icono_web.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icono_web.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Purple Republic - VioletDreamer</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3d1a6e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Purple Republic">
+  <link rel="apple-touch-icon" href="icono_web.png">
+  <meta name="mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #04020a;
+  --ink2:   #070312;
+  --ink3:   #0c0620;
+  --violet: #3d1a6e;
+  --v2:     #5a2a96;
+  --mist:   #8b5cbf;
+  --mist2:  #b088e0;
+  --petal:  #c9a8f0;
+  --warm:   #e8d5ff;
+  --warm2:  rgba(212,184,245,0.75);
+  --warm3:  rgba(180,140,220,0.45);
+  --warm4:  rgba(140,100,180,0.28);
+  --glass:  rgba(12,6,28,0.75);
+  --glass2: rgba(20,10,42,0.62);
+  --frost:  rgba(90,42,150,0.06);
+  --b1:     rgba(120,80,180,0.15);
+  --b2:     rgba(160,110,210,0.22);
+  --b3:     rgba(200,160,240,0.3);
+  --t1:     #e8d5ff;
+  --t2:     rgba(200,170,240,0.72);
+  --t3:     rgba(160,130,200,0.52);
+  --t4:     rgba(120,95,160,0.42);
+  --green:  #6bcfb8;
+  --r:      14px;
+  --rlg:    22px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--t1);font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--ink2)}
+::-webkit-scrollbar-thumb{background:var(--v2);border-radius:10px}
+
+/* ATMOSPHERE */
+.atmo{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.atmo-sky{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(61,26,110,0.32) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(90,42,150,0.18) 0%,transparent 55%),linear-gradient(180deg,#04020a 0%,#060210 40%,#08031500 100%)}
+.atmo-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(80,40,130,0.012) 3px,rgba(80,40,130,0.012) 4px)}
+.particles{position:absolute;inset:0}
+.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--petal);opacity:0;animation:fp var(--dur,12s) var(--del,0s) infinite ease-in-out}
+@keyframes fp{0%{opacity:0;transform:translateY(0) translateX(0)}15%{opacity:var(--op,.25)}85%{opacity:var(--op,.25)}100%{opacity:0;transform:translateY(calc(var(--rise,-80)*1px)) translateX(calc(var(--drift,20)*1px))}}
+.farlights{position:absolute;inset:0}
+.farlight{position:absolute;border-radius:50%;animation:bls var(--bd,4s) var(--bde,0s) infinite ease-in-out}
+@keyframes bls{0%,100%{opacity:0.1}50%{opacity:var(--bop,.4)}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:58px;z-index:1000;display:flex;align-items:center;padding:0 48px;background:rgba(4,2,10,0.88);backdrop-filter:blur(28px) saturate(1.4);border-bottom:1px solid var(--b1)}
+.nav::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(140,100,200,0.28),rgba(180,130,240,0.12),transparent)}
+.nav-logo{display:flex;align-items:center;gap:14px;margin-right:auto;cursor:pointer}
+.nav-emb{width:36px;height:36px;border-radius:10px;background:var(--glass2);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:15px;position:relative;overflow:hidden}
+.nav-emb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 30%,rgba(180,130,240,0.18),transparent 60%)}
+.nav-emb span{position:relative;z-index:1;filter:drop-shadow(0 0 6px rgba(180,130,240,0.5))}
+.nav-wm-title{font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--warm);line-height:1}
+.nav-wm-sub{font-size:8px;letter-spacing:2px;color:var(--t4);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2px;margin:0 40px}
+.nav-link{padding:6px 16px;font-size:9px;letter-spacing:2.5px;font-weight:500;text-transform:uppercase;color:var(--t4);cursor:pointer;transition:all .3s;border-radius:20px;border:1px solid transparent}
+.nav-link:hover{color:var(--warm2);background:var(--frost);border-color:var(--b1)}
+.nav-link.active{color:var(--petal);background:rgba(90,42,150,0.12);border-color:var(--b2)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-weather{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--t3);letter-spacing:1px;padding:5px 12px;border:1px solid var(--b1);border-radius:20px;background:var(--frost)}
+.nav-wd{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pdot 3s infinite}
+@keyframes pdot{0%,100%{opacity:1}50%{opacity:.4}}
+.nav-pp{padding:7px 20px;border-radius:20px;background:var(--glass2);border:1px solid var(--b2);font-size:9px;letter-spacing:2px;font-weight:500;text-transform:uppercase;color:var(--petal);cursor:pointer;transition:all .3s}
+.nav-pp:hover{background:rgba(90,42,150,0.2);border-color:var(--b3);box-shadow:0 0 20px rgba(140,100,200,0.15)}
+
+/* HERO */
+.hero{position:relative;height:420px;overflow:hidden;margin-top:58px}
+.hero-img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block}
+.hero-img-fade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,2,10,0.08) 0%,rgba(4,2,10,0) 30%,rgba(4,2,10,0.45) 72%,rgba(4,2,10,0.92) 100%)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:294px 1fr 330px;position:relative;z-index:1}
+.layout::before,.layout::after{content:'';position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(100,60,160,.1) 12%,rgba(100,60,160,.1) 88%,transparent);pointer-events:none}
+.layout::before{left:294px}
+.layout::after{right:330px}
+
+/* LEFT */
+.qleft{padding:34px 26px;display:flex;flex-direction:column;gap:22px}
+.avatar-scene{position:relative;height:175px;border-radius:var(--rlg);overflow:hidden;margin-bottom:18px;background:linear-gradient(135deg,#0e0525,#180840,#0e0525);border:1px solid var(--b1)}
+.as-bg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 120%,rgba(90,42,150,.38) 0%,transparent 60%),radial-gradient(ellipse 60% 60% at 20% 0%,rgba(61,26,110,.18) 0%,transparent 50%)}
+.as-stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 40% 15%,rgba(180,140,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 75% 30%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 90% 60%,rgba(180,140,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 25% 70%,rgba(255,255,255,.2) 0%,transparent 100%)}
+.av-center{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.av-ring{width:86px;height:86px;border-radius:50%;background:conic-gradient(from 0deg,rgba(180,130,240,.8),rgba(90,42,150,.5),rgba(61,26,110,.3),rgba(90,42,150,.5),rgba(180,130,240,.8));padding:2px;animation:rspin 12s linear infinite;box-shadow:0 0 24px rgba(120,70,180,.4),0 0 50px rgba(90,42,150,.18)}
+@keyframes rspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.av-inner{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2a1055,#12062a);display:flex;align-items:center;justify-content:center;font-size:38px;position:relative;overflow:hidden}
+.av-inner::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 35% 35%,rgba(180,130,240,.16),transparent 55%)}
+.av-status{position:absolute;top:4px;right:4px;width:14px;height:14px;border-radius:50%;background:var(--green);border:2px solid var(--ink2);box-shadow:0 0 8px var(--green);animation:pdot 3s infinite}
+.av-badge{position:absolute;bottom:0;right:0;width:26px;height:26px;border-radius:50%;background:rgba(12,5,28,.92);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 8px rgba(120,70,180,.28)}
+.cit-nameblock{padding-top:24px}
+.cit-name{font-family:'Crimson Pro',serif;font-size:26px;font-weight:400;color:var(--warm);letter-spacing:.5px;display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.verified{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,rgba(61,26,110,.8),rgba(90,42,150,.9));border:1px solid rgba(180,130,240,.4);display:flex;align-items:center;justify-content:center;font-size:9px}
+.cit-handle{font-size:12px;color:var(--t3);letter-spacing:.5px;margin-bottom:8px}
+.cit-handle span{color:var(--mist2)}
+.cit-quote{font-family:'Crimson Pro',serif;font-size:14px;font-style:italic;color:var(--t2);line-height:1.5}
+.cit-quote em{color:var(--petal);font-style:normal}
+.lvl-med{display:flex;align-items:center;gap:12px;padding:13px 15px;background:var(--glass2);border:1px solid var(--b1);border-radius:var(--r);position:relative;overflow:hidden}
+.lvl-med::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(180,130,240,.28),transparent)}
+.lvl-ico{width:42px;height:42px;border-radius:11px;flex-shrink:0;background:linear-gradient(135deg,rgba(61,26,110,.6),rgba(90,42,150,.4));border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 14px rgba(90,42,150,.18)}
+.lvl-lbl{font-size:8px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;margin-bottom:2px}
+.lvl-val{font-family:'Jost',sans-serif;font-size:19px;font-weight:600;color:var(--warm);line-height:1}
+.lvl-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.lvl-xp{text-align:right}
+.lvl-xp-bar{width:76px;height:3px;background:rgba(90,42,150,.18);border-radius:10px;overflow:hidden;margin-top:5px}
+.lvl-xp-fill{height:100%;width:81.6%;background:linear-gradient(90deg,#5a2a96,#c9a8f0);border-radius:10px}
+.lvl-xp-txt{font-size:9px;color:var(--t3);letter-spacing:.5px}
+.slabel{font-size:8px;letter-spacing:3px;color:var(--t4);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.slabel::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(90,42,150,.18),transparent)}
+.stats-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stile{padding:11px 13px;background:var(--frost);border:1px solid var(--b1);border-radius:10px;position:relative;overflow:hidden;cursor:default;transition:all .35s}
+.stile:hover{background:rgba(90,42,150,.09);border-color:var(--b2)}
+.stile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(180,130,240,.2),transparent);transform:scaleX(0);transition:transform .35s}
+.stile:hover::before{transform:scaleX(1)}
+.st-ic{font-size:12px;margin-bottom:5px;opacity:.7}
+.st-n{font-family:'Jost',sans-serif;font-size:17px;font-weight:600;line-height:1;color:var(--warm)}
+.st-l{font-size:8px;letter-spacing:1.5px;color:var(--t4);text-transform:uppercase;margin-top:2px}
+.bio-block{padding:15px 17px;background:var(--glass);border:1px solid var(--b1);border-radius:var(--r);font-family:'Crimson Pro',serif;font-size:15px;line-height:1.75;color:var(--t2);position:relative}
+.bio-block::before{content:'"';position:absolute;top:8px;left:13px;font-size:38px;line-height:1;color:rgba(120,70,180,.14);font-family:'Crimson Pro',serif}
+.div-card{padding:15px 17px;background:var(--glass);border:1px solid var(--b1);border-radius:var(--r);position:relative;overflow:hidden}
+.div-card::after{content:'';position:absolute;right:-20px;top:-20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(90,42,150,.1),transparent 70%);pointer-events:none}
+.dh{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.dico{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,rgba(61,26,110,.5),rgba(90,42,150,.3));border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:17px}
+.dname{font-size:14px;font-weight:500;color:var(--warm);margin-bottom:2px}
+.ddesc{font-size:10px;color:var(--t3);letter-spacing:.5px}
+.dbar{height:3px;background:rgba(90,42,150,.1);border-radius:10px;overflow:hidden;margin-bottom:5px}
+.dfill{height:100%;width:78%;background:linear-gradient(90deg,#5a2a96,#b088e0);border-radius:10px}
+.dsub{font-size:10px;color:var(--t4)}
+
+/* CENTER */
+.qcenter{padding:34px 30px;display:flex;flex-direction:column;gap:26px}
+.sec-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-family:'Crimson Pro',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--warm2);letter-spacing:.5px}
+.sec-meta{font-size:9px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;cursor:pointer;transition:color .2s}
+.sec-meta:hover{color:var(--t3)}
+
+/* Districts */
+.dhero{display:grid;grid-template-columns:1.6fr 1fr;grid-template-rows:195px 155px;gap:9px}
+.dist{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer;transition:transform .4s ease;border:1px solid var(--b1)}
+.dist:hover{transform:translateY(-3px)}
+.dist:hover .dov{opacity:1}
+.dist:hover .dglow{opacity:1}
+.dbg{width:100%;height:100%;position:absolute;inset:0}
+.dglow{position:absolute;inset:0;opacity:0;transition:opacity .4s}
+.dov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,3,20,.78) 0%,rgba(8,3,20,.18) 60%,transparent 100%);opacity:.55;transition:opacity .3s}
+.dcontent{position:absolute;bottom:0;left:0;right:0;padding:14px 16px}
+.dtag{font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.dtag-dot{width:4px;height:4px;border-radius:50%;background:currentColor}
+.dname-t{font-family:'Crimson Pro',serif;font-size:18px;font-weight:400;font-style:italic;color:var(--warm);line-height:1.1}
+.dname-t.lg{font-size:24px}
+.dcit{font-size:9px;color:var(--t2);margin-top:4px;letter-spacing:.5px}
+.dbadge{position:absolute;top:11px;right:11px;padding:3px 8px;border-radius:20px;font-size:7px;letter-spacing:1.5px;text-transform:uppercase}
+.dbadge.live{background:rgba(107,207,184,.14);border:1px solid rgba(107,207,184,.28);color:var(--green)}
+.dbadge.mem{background:rgba(180,130,240,.12);border:1px solid rgba(180,130,240,.28);color:var(--petal)}
+.dstars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 15% 20%,rgba(255,255,255,.32) 0%,transparent 100%),radial-gradient(1px 1px at 65% 15%,rgba(180,140,255,.48) 0%,transparent 100%),radial-gradient(1px 1px at 85% 55%,rgba(255,255,255,.28) 0%,transparent 100%),radial-gradient(1px 1px at 30% 65%,rgba(180,140,255,.38) 0%,transparent 100%);pointer-events:none}
+.d1{grid-row:1/3}
+.d1bg{background:radial-gradient(ellipse at 50% 100%,rgba(90,42,150,.58) 0%,transparent 58%),radial-gradient(ellipse at 80% 20%,rgba(61,26,110,.28) 0%,transparent 50%),linear-gradient(160deg,#100530 0%,#1c0840 50%,#0c0322 100%)}
+.d1glow{background:radial-gradient(ellipse at 50% 80%,rgba(90,42,150,.18) 0%,transparent 55%)}
+.d2bg{background:radial-gradient(ellipse at 30% 80%,rgba(61,26,110,.48) 0%,transparent 52%),linear-gradient(145deg,#0e0428 0%,#180840 100%)}
+.d2glow{background:radial-gradient(ellipse at 30% 80%,rgba(61,26,110,.14) 0%,transparent 58%)}
+.d3bg{background:radial-gradient(ellipse at 70% 90%,rgba(120,70,180,.42) 0%,transparent 48%),linear-gradient(160deg,#0c0325 0%,#160640 100%)}
+.d3glow{background:radial-gradient(ellipse at 70% 90%,rgba(120,70,180,.14) 0%,transparent 52%)}
+.d1city{position:absolute;bottom:55px;left:0;right:0;height:100px;display:flex;align-items:flex-end;gap:2px;padding:0 14px;opacity:.45}
+.d1b{flex-shrink:0;background:linear-gradient(to bottom,#1c0840,#0c0322);border-top:1px solid rgba(120,70,180,.18)}
+
+/* Strip */
+.strip{display:flex;gap:9px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.sdistrict{flex-shrink:0;width:155px;height:115px;border-radius:var(--r);border:1px solid var(--b1);overflow:hidden;cursor:pointer;position:relative;transition:all .35s}
+.sdistrict:hover{transform:translateY(-3px);border-color:var(--b2)}
+.sdistrict:hover .sdov{opacity:.7}
+.sdbg{width:100%;height:100%;position:absolute;inset:0}
+.sdov{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,2,15,.9) 0%,transparent 50%);opacity:.48;transition:opacity .3s}
+.sdcontent{position:absolute;bottom:9px;left:11px;right:8px}
+.sdname{font-size:11px;font-weight:500;color:var(--warm);letter-spacing:.3px;margin-bottom:2px}
+.sdmeta{font-size:8px;color:var(--t3)}
+.sdlive{position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;animation:pdot 2s infinite}
+.sdlive.on{background:var(--green);box-shadow:0 0 5px var(--green)}
+.sdlive.mid{background:var(--mist2);box-shadow:0 0 5px var(--mist2)}
+.sdlive.off{background:var(--t4)}
+
+/* Posts */
+.pmosaic{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:8px}
+.ptile{border-radius:10px;overflow:hidden;position:relative;cursor:pointer;border:1px solid var(--b1);aspect-ratio:1;transition:all .35s}
+.ptile:hover{transform:scale(.97);border-color:var(--b2)}
+.ptile:hover .ptov{opacity:1}
+.ptile.feat{grid-column:1/3;aspect-ratio:2/1}
+.ptbg{width:100%;height:100%;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.ptglow{position:absolute;inset:0}
+.ptstars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 18% 22%,rgba(255,255,255,.38) 0%,transparent 100%),radial-gradient(1px 1px at 62% 18%,rgba(180,140,255,.48) 0%,transparent 100%),radial-gradient(1px 1px at 84% 58%,rgba(255,255,255,.28) 0%,transparent 100%)}
+.ptlabel{font-family:'Jost',sans-serif;font-size:11px;font-weight:300;letter-spacing:4px;color:rgba(200,168,240,.72);text-transform:uppercase;text-shadow:0 0 12px rgba(140,90,200,.48);position:relative;z-index:1}
+.ptlabel.lg{font-size:16px}
+.ptemoji{font-size:28px;position:relative;z-index:1;text-shadow:0 0 16px rgba(140,90,200,.38)}
+.ptov{position:absolute;inset:0;opacity:0;transition:opacity .3s;background:rgba(5,2,15,.62);display:flex;flex-direction:column;justify-content:flex-end;padding:9px}
+.ptsts{display:flex;gap:9px}
+.pts{font-size:10px;color:rgba(255,255,255,.75);font-weight:500}
+
+/* Activity */
+.afeed{display:flex;flex-direction:column;gap:2px}
+.aitem{display:flex;align-items:center;gap:12px;padding:10px 15px;border-radius:10px;background:var(--frost);border:1px solid transparent;transition:all .3s}
+.aitem:hover{background:rgba(90,42,150,.07);border-color:var(--b1)}
+.aico{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px}
+.atxt{flex:1;font-size:12px;color:var(--t2);line-height:1.4}
+.atxt strong{color:var(--warm2);font-weight:500}
+.atme{font-size:9px;color:var(--t4);letter-spacing:.5px;white-space:nowrap}
+
+/* RIGHT */
+.qright{padding:34px 26px;display:flex;flex-direction:column;gap:20px}
+.cpulse{padding:17px 19px;background:var(--glass2);border:1px solid var(--b1);border-radius:var(--r);position:relative;overflow:hidden}
+.cpulse::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(180,130,240,.22),transparent)}
+.cp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.cp-tl{font-size:8px;letter-spacing:2.5px;color:var(--t4);text-transform:uppercase}
+.cp-time{font-family:'Jost',sans-serif;font-size:22px;font-weight:200;color:var(--warm);letter-spacing:2px;line-height:1}
+.cp-date{font-size:9px;color:var(--t3);letter-spacing:1px;margin-bottom:11px}
+.cp-weather{display:flex;align-items:center;gap:9px}
+.cp-wico{font-size:19px}
+.cp-wtxt{font-size:11px;color:var(--t2);line-height:1.5}
+.cp-wmain{font-weight:500;color:var(--warm2)}
+.streak-w{padding:18px;background:var(--glass);border:1px solid var(--b1);border-radius:var(--r);text-align:center;position:relative;overflow:hidden}
+.streak-w::after{content:'';position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:120px;height:50px;background:radial-gradient(ellipse,rgba(90,42,150,.18),transparent 70%);pointer-events:none}
+.sw-lbl{font-size:8px;letter-spacing:2.5px;color:var(--t4);text-transform:uppercase;margin-bottom:12px}
+.sw-flame{font-size:24px;margin-bottom:4px}
+.sw-num{font-family:'Crimson Pro',serif;font-size:52px;font-weight:300;color:var(--warm);line-height:.9;text-shadow:0 0 28px rgba(120,70,180,.28)}
+.sw-unit{font-size:11px;color:var(--t3);letter-spacing:1px;margin:5px 0 14px}
+.sw-days{display:flex;justify-content:center;gap:5px;margin-bottom:14px}
+.swday{width:27px;height:27px;border-radius:7px;background:var(--frost);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:.5px;color:var(--t4);font-weight:600;text-transform:uppercase;transition:all .2s}
+.swday.done{background:rgba(90,42,150,.2);border-color:var(--b2);color:var(--petal)}
+.swday.today{background:rgba(90,42,150,.34);border-color:var(--mist);color:var(--warm);box-shadow:0 0 8px rgba(90,42,150,.28)}
+.btn-ci{width:100%;padding:11px;border:none;border-radius:10px;background:linear-gradient(135deg,rgba(61,26,110,.7),rgba(90,42,150,.58));border:1px solid var(--b2);color:var(--petal);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:3px;font-weight:600;text-transform:uppercase;cursor:pointer;transition:all .3s;box-shadow:0 4px 18px rgba(61,26,110,.18)}
+.btn-ci:hover{background:linear-gradient(135deg,rgba(90,42,150,.78),rgba(120,70,180,.58));box-shadow:0 4px 26px rgba(90,42,150,.28);border-color:var(--b3)}
+.missions-w{padding:17px 19px;background:var(--glass);border:1px solid var(--b1);border-radius:var(--r)}
+.mw-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.mw-title{font-size:8px;letter-spacing:2.5px;color:var(--t4);text-transform:uppercase}
+.mw-pts{font-family:'Jost',sans-serif;font-size:11px;color:var(--mist2);font-weight:500}
+.mitem{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(90,42,150,.055);cursor:pointer;transition:padding-left .2s}
+.mitem:last-child{border-bottom:none}
+.mitem:hover{padding-left:3px}
+.mck{width:19px;height:19px;border-radius:6px;flex-shrink:0;background:var(--frost);border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--petal);transition:all .2s}
+.mck.done{background:rgba(90,42,150,.24);border-color:var(--mist)}
+.mtxt{flex:1;font-size:11px;color:var(--t2)}
+.mpts{font-size:9px;color:var(--t3);white-space:nowrap;font-weight:500}
+.places-w{padding:17px 19px;background:var(--glass);border:1px solid var(--b1);border-radius:var(--r)}
+.pw-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}
+.pw-title{font-size:8px;letter-spacing:2.5px;color:var(--t4);text-transform:uppercase}
+.pw-cnt{font-size:10px;color:var(--mist2);font-weight:500}
+.pline{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(90,42,150,.048);cursor:pointer;transition:all .2s}
+.pline:last-child{border-bottom:none}
+.pline:hover{padding-left:4px}
+.ple{font-size:13px}
+.pln{font-size:11px;color:var(--t2);flex:1}
+.plarr{font-size:9px;color:var(--t4);transition:transform .2s}
+.pline:hover .plarr{transform:translateX(3px);color:var(--t3)}
+
+/* FOOTER */
+.footer{padding:24px 60px;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;background:rgba(4,2,10,.55);position:relative}
+.footer::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(140,90,200,.22),transparent)}
+.ft-brand{display:flex;align-items:center;gap:11px}
+.ft-sym{font-size:18px;opacity:.45}
+.ft-txt{font-size:9px;letter-spacing:2px;color:var(--t4);text-transform:uppercase}
+.ft-center{font-size:10px;color:var(--t4);letter-spacing:1px;font-style:italic;font-family:'Crimson Pro',serif}
+.ft-right{font-size:9px;color:var(--t4);letter-spacing:1px}
+
+/* PROFILE STRIP — superpuesto en la parte inferior del hero */
+.profile-strip{position:absolute;bottom:0;left:0;right:0;z-index:4;display:flex;align-items:flex-end;justify-content:space-between;padding:0 60px 24px 60px}
+.ps-left{display:flex;align-items:flex-end;gap:16px}
+.ps-avatar{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2a1055,#12062a);border:2px solid rgba(180,130,240,.5);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden;box-shadow:0 0 20px rgba(90,42,150,.4)}
+.ps-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ps-name{font-family:'Crimson Pro',serif;font-size:26px;font-weight:400;color:var(--warm);display:flex;align-items:center;gap:8px;margin-bottom:3px;line-height:1;text-shadow:0 2px 12px rgba(4,2,10,.6)}
+.ps-check{width:17px;height:17px;border-radius:50%;background:linear-gradient(135deg,rgba(61,26,110,.8),rgba(90,42,150,.9));border:1px solid rgba(180,130,240,.4);display:inline-flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0}
+.ps-handle{font-size:11px;color:rgba(200,170,240,.75);margin-bottom:5px;text-shadow:0 1px 8px rgba(4,2,10,.5)}
+.ps-handle span{color:var(--mist2)}
+.ps-quote{font-family:'Crimson Pro',serif;font-size:14px;font-style:italic;color:rgba(212,184,245,.65);text-shadow:0 1px 8px rgba(4,2,10,.5)}
+.ps-stats{display:flex;align-items:center;gap:0;margin-bottom:4px}
+.ps-stat{padding:6px 24px;text-align:center}
+.ps-stat:first-child{padding-left:0}
+.ps-stat-n{font-family:'Jost',sans-serif;font-size:20px;font-weight:600;color:var(--warm);line-height:1;margin-bottom:2px;text-shadow:0 2px 12px rgba(4,2,10,.6)}
+.ps-stat-l{font-size:8px;letter-spacing:1.8px;color:rgba(160,130,200,.6);text-transform:uppercase}
+.ps-div{width:1px;height:28px;background:rgba(120,80,180,.25)}
+
+/* TOAST */
+.toast{position:fixed;bottom:34px;left:50%;transform:translateX(-50%);background:rgba(12,5,28,.96);border:1px solid var(--b2);color:var(--warm2);padding:10px 22px;border-radius:30px;font-size:12px;letter-spacing:.5px;backdrop-filter:blur(20px);box-shadow:0 0 28px rgba(61,26,110,.28);opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ATMOSPHERE -->
+<div class="atmo">
+  <div class="atmo-sky"></div>
+  <div class="atmo-scan"></div>
+  <div class="particles" id="particles"></div>
+  <div class="farlights" id="farlights"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-emb"><span>&#x1D54F;</span></div>
+    <div>
+      <div class="nav-wm-title">The Purple Republic</div>
+      <div class="nav-wm-sub">Citizen Portal &middot; Seoul District</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <div class="nav-link active" onclick="window.location.href='/'">City</div>
+    <div class="nav-link" onclick="toast('Opening Map...')">Map</div>
+    <div class="nav-link" onclick="toast('Messages')">Messages</div>
+    <div class="nav-link" onclick="toast('Achievements')">Achievements</div>
+    <div class="nav-link" onclick="toast('Broadcasts')">Broadcasts</div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-weather">
+      <div class="nav-wd"></div>
+      <span>Seoul &middot; 02:14 &middot; &#127783; 16&deg;</span>
+    </div>
+    <span id="purpleIdBadge"></span><button id="pwaInstallBtn" onclick="installPWA()" class="nav-logout" style="display:none;align-items:center;gap:6px">&#8681; Install app</button><div class="nav-pp" onclick="openPassport()">Profile</div><button class="nav-logout" onclick="logOut()">Sign out</button>
+  </div>
+</nav>
+
+<!-- HERO con profile strip superpuesto abajo -->
+<div class="hero">
+  <img class="hero-img" src="banner_completo.png" alt="The Purple Republic Banner">
+  <div class="hero-img-fade"></div>
+  <!-- PROFILE STRIP dentro del hero, parte inferior -->
+  <div class="profile-strip">
+    <div class="ps-left">
+      <div class="ps-avatar" id="psAvatar">&#127769;</div>
+      <div class="ps-info">
+        <div class="ps-name">VioletDreamer <span class="ps-check">&#10003;</span></div>
+        <div class="ps-handle"><span>@violetdreamer</span></div>
+        <div class="ps-bio" id="psBio">Exploring Purple Republic. Music. Art. Dreams. 🌙</div>
+        <div class="ps-quote">&ldquo;I purple you. &#128156;&rdquo;</div>
+      </div>
+    </div>
+    <div class="ps-stats">
+      <div class="ps-stat">
+        <div class="ps-stat-n">47.3K</div>
+        <div class="ps-stat-l">Total Likes</div>
+      </div>
+      <div class="ps-div"></div>
+      <div class="ps-stat">
+        <div class="ps-stat-n">235</div>
+        <div class="ps-stat-l">Posts</div>
+      </div>
+      <div class="ps-div"></div>
+      <div class="ps-stat">
+        <div class="ps-stat-n">1.2K</div>
+        <div class="ps-stat-l">Followers</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="qleft">
+    <div class="lvl-med">
+      <div class="lvl-ico">&#x1D54F;</div>
+      <div style="flex:1">
+        <div class="lvl-lbl">Citizen Level</div>
+        <div class="lvl-val">7</div>
+        <div class="lvl-sub">Veteran Citizen</div>
+      </div>
+      <div class="lvl-xp">
+        <div class="lvl-xp-txt">2,450 / 3,000 XP</div>
+        <div class="lvl-xp-bar"><div class="lvl-xp-fill"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="slabel">Civil Registry</div>
+      <div class="stats-strip">
+        <div class="stile"><div class="st-ic">&#10022;</div><div class="st-n">235</div><div class="st-l">Posts</div></div>
+        <div class="stile"><div class="st-ic">&#9768;</div><div class="st-n">1.2K</div><div class="st-l">Followers</div></div>
+        <div class="stile"><div class="st-ic">&#9711;</div><div class="st-n">236</div><div class="st-l">Following</div></div>
+        <div class="stile"><div class="st-ic">&#9670;</div><div class="st-n">9.8K</div><div class="st-l">Reputation</div></div>
+      </div>
+    </div>
+    <div class="bio-block">Explorando cada rinc&oacute;n de Purple Republic.<br>M&uacute;sica. Arte. Sue&ntilde;os.<br>Young forever, we purple. &#127769;</div>
+    <div class="div-card">
+      <div class="slabel">Assigned Division</div>
+      <div class="dh">
+        <div class="dico">&#9889;</div>
+        <div><div class="dname">Jungkook Division</div><div class="ddesc">Cyberpunk &middot; Gaming &middot; Neons</div></div>
+      </div>
+      <div class="dbar"><div class="dfill"></div></div>
+      <div class="dsub">78% afinidad &middot; 4,250 pts de divisi&oacute;n</div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="qcenter">
+
+
+    <div>
+      <div class="sec-hdr">
+        <div class="sec-title">Posts</div>
+        <div class="sec-meta" onclick="toast('View all')">235 posts &rarr;</div>
+      </div>
+      <div class="pmosaic">
+        <div class="ptile feat" onclick="toast('3.2K &middot; 445')"><div class="ptbg" style="background:linear-gradient(135deg,#0d0530,#1c0848)"><div class="ptstars"></div><div class="ptglow" style="background:radial-gradient(ellipse at 50% 100%,rgba(90,42,150,.48),transparent 58%)"></div><div class="ptlabel lg">Young Forever</div></div><div class="ptov"><div class="ptsts"><span class="pts">&#9825; 3.2K</span><span class="pts">&#128172; 445</span></div></div></div>
+        <div class="ptile" onclick="toast('2.1K &middot; 156')"><div class="ptbg" style="background:linear-gradient(135deg,#100325,#1f0a45)"><div class="ptstars"></div><div class="ptglow" style="background:radial-gradient(ellipse at 50% 100%,rgba(180,130,240,.38),transparent 58%)"></div><div class="ptlabel" style="font-size:13px;line-height:1.3">Magic<br>Shop</div></div><div class="ptov"><div class="ptsts"><span class="pts">&#9825; 2.1K</span><span class="pts">&#128172; 156</span></div></div></div>
+        <div class="ptile" onclick="toast('985 &middot; 93')"><div class="ptbg" style="background:linear-gradient(135deg,#0a0220,#160535)"><div class="ptstars"></div><div class="ptglow" style="background:radial-gradient(ellipse at 50% 100%,rgba(61,26,110,.48),transparent 58%)"></div><div class="ptemoji">&#127800;</div></div><div class="ptov"><div class="ptsts"><span class="pts">&#9825; 985</span><span class="pts">&#128172; 93</span></div></div></div>
+        <div class="ptile" onclick="toast('1.3K &middot; 128')"><div class="ptbg" style="background:linear-gradient(135deg,#0d0228,#1a0448)"><div class="ptstars"></div><div class="ptglow" style="background:radial-gradient(ellipse at 50% 100%,rgba(90,42,150,.42),transparent 58%)"></div><div class="ptlabel">HYYH Era</div></div><div class="ptov"><div class="ptsts"><span class="pts">&#9825; 1.3K</span><span class="pts">&#128172; 128</span></div></div></div>
+        <div class="ptile" onclick="toast('742 &middot; 67')"><div class="ptbg" style="background:linear-gradient(135deg,#0d0330,#1a0550)"><div class="ptstars"></div><div class="ptglow" style="background:radial-gradient(ellipse at 50% 100%,rgba(120,70,180,.38),transparent 58%)"></div><div class="ptemoji">&#129419;</div></div><div class="ptov"><div class="ptsts"><span class="pts">&#9825; 742</span><span class="pts">&#128172; 67</span></div></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-hdr">
+        <div class="sec-title">Recent Activity</div>
+        <div class="sec-meta" onclick="toast('View history')">View all &rarr;</div>
+      </div>
+      <div class="afeed">
+        <div class="aitem"><div class="aico" style="background:rgba(61,26,110,.32)">&#127967;</div><div class="atxt">Visited <strong>Golden Arena</strong> and reacted to 3 broadcasts</div><div class="atme">hace 2h</div></div>
+        <div class="aitem"><div class="aico" style="background:rgba(6,60,45,.32)">&#128225;</div><div class="atxt">Mission completed &mdash; <strong>+150 pts</strong> from streaming</div><div class="atme">hace 5h</div></div>
+        <div class="aitem"><div class="aico" style="background:rgba(30,10,50,.48)">&#127800;</div><div class="atxt">Left a message at <strong>Spring Day Street</strong></div><div class="atme">ayer</div></div>
+        <div class="aitem"><div class="aico" style="background:rgba(100,50,10,.38)">&#128379;</div><div class="atxt">Voted in the national poll &mdash; <strong>HYYH wins again</strong></div><div class="atme">hace 2 d&iacute;as</div></div>
+        <div class="aitem"><div class="aico" style="background:rgba(61,26,110,.32)">&#128156;</div><div class="atxt"><strong>12-day</strong> streak reached &#128293;</div><div class="atme">hoy</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="qright">
+
+    <div class="cpulse">
+      <div class="cp-top">
+        <span class="cp-tl">City &middot; Live Pulse</span>
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pdot 2s infinite"></div>
+      </div>
+      <div class="cp-time" id="cpTime">02:14</div>
+      <div class="cp-date">Friday &middot; Seoul, Purple Republic</div>
+      <div class="cp-weather">
+        <div class="cp-wico">&#127783;</div>
+        <div class="cp-wtxt">
+          <div class="cp-wmain">Light rain &middot; 16&deg;C</div>
+          <div>Wet asphalt &middot; Reflected lights</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="streak-w">
+      <div class="sw-lbl">Daily Streak</div>
+      <div class="sw-flame">&#128293;</div>
+      <div class="sw-num" id="streakNum">12</div>
+      <div class="sw-unit">consecutive days</div>
+      <div class="sw-days">
+        <div class="swday done">L</div>
+        <div class="swday done">M</div>
+        <div class="swday done">X</div>
+        <div class="swday done">J</div>
+        <div class="swday done">V</div>
+        <div class="swday today">S</div>
+        <div class="swday">D</div>
+      </div>
+      <button class="btn-ci" id="ciBtn" onclick="doCheckin()">Check in &#9889;</button>
+    </div>
+
+    <div class="missions-w">
+      <div class="mw-hdr">
+        <span class="mw-title">Today's Missions</span>
+        <span class="mw-pts">+575 pts available</span>
+      </div>
+      <div class="mitem" onclick="completeMission(this,50)"><div class="mck done">&#10003;</div><div class="mtxt">Visit the Republic</div><div class="mpts">+50 pts</div></div>
+      <div class="mitem" onclick="completeMission(this,75)"><div class="mck done">&#10003;</div><div class="mtxt">Comment on a post</div><div class="mpts">+75 pts</div></div>
+      <div class="mitem" onclick="completeMission(this,100)"><div class="mck"></div><div class="mtxt">Vote in a poll</div><div class="mpts">+100 pts</div></div>
+      <div class="mitem" onclick="completeMission(this,150)"><div class="mck"></div><div class="mtxt">Listen to 1 BTS song</div><div class="mpts">+150 pts</div></div>
+      <div class="mitem" onclick="completeMission(this,200)"><div class="mck"></div><div class="mtxt">Visit 3 monuments</div><div class="mpts">+200 pts</div></div>
+    </div>
+
+    <div class="places-w">
+      <div class="pw-hdr"><span class="pw-title">Places Visited</span><span class="pw-cnt">23 / 34</span></div>
+      <div class="pline" onclick="toast('Golden Arena')"><span class="ple">&#127967;</span><span class="pln">Golden Arena</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('D-Day Studios')"><span class="ple">&#128420;</span><span class="pln">D-Day Studios</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('Muse Theater')"><span class="ple">&#10024;</span><span class="pln">Muse Theater</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('Indigo Library')"><span class="ple">&#127807;</span><span class="pln">Indigo Library</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('Spring Day Street')"><span class="ple">&#127800;</span><span class="pln">Spring Day Street</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('Magic Shop')"><span class="ple">&#127756;</span><span class="pln">Magic Shop</span><span class="plarr">&rsaquo;</span></div>
+      <div class="pline" onclick="toast('Butterfly District')"><span class="ple">&#129419;</span><span class="pln">Butterfly District</span><span class="plarr">&rsaquo;</span></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="ft-brand"><div class="ft-sym">&#x1D54F;</div><div class="ft-txt">The Purple Republic &middot; Citizen Portal</div></div>
+  <div class="ft-center">Young forever, we purple &#128156;</div>
+  <div class="ft-right" id="ftRight">Seoul &middot; 02:14 &middot; &copy; The Purple Republic</div>
+</footer>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+// Particles
+const pw = document.getElementById('particles');
+for(let i=0;i<26;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`left:${Math.random()*100}%;top:${20+Math.random()*60}%;--dur:${10+Math.random()*14}s;--del:${-Math.random()*14}s;--op:${.14+Math.random()*.24};--rise:${-55-Math.random()*75};--drift:${-20+Math.random()*40};width:${1+Math.random()}px;height:${1+Math.random()}px`;
+  pw.appendChild(p);
+}
+// Far lights
+const fw=document.getElementById('farlights');
+const fc=['rgba(180,130,240,.55)','rgba(107,207,184,.45)','rgba(200,168,240,.38)','rgba(140,80,180,.48)'];
+for(let i=0;i<38;i++){
+  const f=document.createElement('div');
+  f.className='farlight';
+  const c=fc[Math.floor(Math.random()*fc.length)];
+  f.style.cssText=`left:${Math.random()*100}%;top:${10+Math.random()*50}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;border-radius:50%;background:${c};box-shadow:0 0 4px ${c};--bd:${3+Math.random()*6}s;--bde:${-Math.random()*6}s;--bop:${.28+Math.random()*.45}`;
+  fw.appendChild(f);
+}
+
+
+
+
+function toast(msg){
+  const t=document.getElementById('toastEl');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+let ci=false;
+function doCheckin(){
+  if(ci)return;ci=true;
+  const b=document.getElementById('ciBtn');
+  b.textContent='Registrado \u2713';
+  b.style.background='linear-gradient(135deg,rgba(6,58,45,.7),rgba(16,90,70,.6))';
+  b.style.borderColor='rgba(107,207,184,.28)';
+  b.style.color='#6bcfb8';
+  document.getElementById('streakNum').textContent=13;
+  toast('Check-in complete! +25 pts');
+}
+function completeMission(el,pts){
+  const c=el.querySelector('.mck');
+  if(c.classList.contains('done'))return;
+  c.classList.add('done');c.textContent='\u2713';
+  toast('Mission complete! +'+pts+' pts');
+}
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  const ts=h+':'+m;
+  document.getElementById('cpTime').textContent=ts;
+  document.getElementById('ftRight').textContent='Seoul \u00b7 '+ts+' \u00b7 \u00a9 The Purple Republic';
+  const nw=document.querySelector('.nav-weather span');
+  if(nw)nw.textContent='Seoul \u00b7 '+ts+' \u00b7 16\u00b0';
+}
+setInterval(updateClock,30000);
+updateClock();
+</script>
+
+<!-- PASSPORT MODAL -->
+<div class="pp-backdrop" id="ppBackdrop" onclick="closePassport()"></div>
+<div class="pp-modal" id="ppModal">
+  <div class="pp-header">
+    <div class="pp-title-row">
+      <div class="pp-emblem">&#x1D54F;</div>
+      <div>
+        <div class="pp-title">Citizen Profile</div>
+        <div class="pp-subtitle">The Purple Republic &middot; Edit profile</div>
+      </div>
+    </div>
+    <div class="pp-close" onclick="closePassport()">&#10005;</div>
+  </div>
+  <div class="pp-body">
+    <div class="pp-section">
+      <div class="pp-section-label">Profile photo</div>
+      <div class="pp-avatar-row">
+        <div class="pp-avatar-preview" id="ppAvatarPreview">&#127769;</div>
+        <div class="pp-avatar-actions">
+          <div class="pp-hint">Upload an image for your avatar</div>
+          <label class="pp-btn-upload" for="ppAvatarInput">&#128247; Upload photo</label>
+          <input type="file" id="ppAvatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)">
+        </div>
+      </div>
+    </div>
+    <div class="pp-section">
+      <div class="pp-section-label">Profile banner</div>
+      <div class="pp-banner-preview">
+        <img id="ppBannerImg" src="banner_completo.png" alt="Current banner" onerror="this.style.display='none'">
+        <div class="pp-banner-overlay">Current banner</div>
+      </div>
+      <label class="pp-btn-upload" for="ppBannerInput" style="margin-top:10px;display:inline-flex">&#128247; Change banner</label>
+      <input type="file" id="ppBannerInput" accept="image/*" style="display:none" onchange="handleBannerUpload(this)">
+    </div>
+    <div class="pp-section">
+      <div class="pp-section-label">Username</div>
+      <input class="pp-input" id="ppName" type="text" value="VioletDreamer" maxlength="30" placeholder="Your name...">
+    </div>
+    <div class="pp-section">
+      <div class="pp-section-label">Bio <span class="pp-hint-inline">(one line)</span></div>
+      <input class="pp-input" id="ppBio" type="text" maxlength="80" value="Exploring Purple Republic. Music. Art. Dreams. 🌙" placeholder="Write your bio...">
+    </div>
+  </div>
+  <div class="pp-footer">
+    <div class="pp-btn-cancel" onclick="closePassport()">Cancel</div>
+    <div class="pp-btn-save" onclick="savePassport()">&#10003; Save changes</div>
+  </div>
+</div>
+
+<style>
+.pp-backdrop{position:fixed;inset:0;background:rgba(4,2,10,.78);backdrop-filter:blur(6px);z-index:2000;opacity:0;pointer-events:none;transition:opacity .3s}
+.pp-backdrop.open{opacity:1;pointer-events:all}
+.pp-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);width:500px;max-width:94vw;max-height:88vh;overflow-y:auto;background:rgba(10,5,24,.98);border:1px solid rgba(160,110,210,.28);border-radius:22px;z-index:2001;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;box-shadow:0 0 60px rgba(61,26,110,.45)}
+.pp-modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%)}
+.pp-modal::-webkit-scrollbar{width:3px}
+.pp-modal::-webkit-scrollbar-thumb{background:rgba(90,42,150,.5);border-radius:10px}
+.pp-header{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 18px;border-bottom:1px solid rgba(120,80,180,.15)}
+.pp-title-row{display:flex;align-items:center;gap:12px}
+.pp-emblem{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(61,26,110,.7),rgba(90,42,150,.5));border:1px solid rgba(160,110,210,.3);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.pp-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:400;color:#e8d5ff;line-height:1}
+.pp-subtitle{font-size:9px;letter-spacing:2px;color:rgba(120,95,160,.42);text-transform:uppercase;margin-top:2px}
+.pp-close{width:30px;height:30px;border-radius:50%;background:rgba(90,42,150,.12);border:1px solid rgba(120,80,180,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(160,130,200,.52);cursor:pointer;transition:all .2s;flex-shrink:0}
+.pp-close:hover{background:rgba(90,42,150,.28);color:#e8d5ff}
+.pp-body{padding:20px 24px;display:flex;flex-direction:column;gap:22px}
+.pp-section-label{font-size:9px;letter-spacing:2.5px;color:rgba(120,95,160,.42);text-transform:uppercase;margin-bottom:10px}
+.pp-hint-inline{font-size:9px;color:rgba(120,95,160,.42);letter-spacing:1px;text-transform:none;font-style:italic}
+.pp-hint{font-size:11px;color:rgba(160,130,200,.52);margin-bottom:8px}
+.pp-avatar-row{display:flex;align-items:center;gap:16px}
+.pp-avatar-preview{width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2a1055,#12062a);border:2px solid rgba(160,110,210,.35);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden}
+.pp-avatar-preview img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.pp-avatar-actions{display:flex;flex-direction:column}
+.pp-btn-upload{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;background:rgba(90,42,150,.15);border:1px solid rgba(160,110,210,.28);color:#c9a8f0;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif}
+.pp-btn-upload:hover{background:rgba(90,42,150,.28);border-color:rgba(180,130,240,.4)}
+.pp-banner-preview{width:100%;height:100px;border-radius:12px;overflow:hidden;border:1px solid rgba(120,80,180,.2);position:relative;background:#0a0220}
+.pp-banner-preview img{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.pp-banner-overlay{position:absolute;bottom:0;left:0;right:0;padding:6px 10px;background:linear-gradient(to top,rgba(4,2,10,.8),transparent);font-size:9px;color:rgba(160,130,200,.52);letter-spacing:1px;text-transform:uppercase}
+.pp-input{width:100%;padding:11px 14px;background:rgba(90,42,150,.08);border:1px solid rgba(120,80,180,.2);border-radius:10px;color:#e8d5ff;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .2s}
+.pp-input:focus{border-color:rgba(160,110,210,.45);background:rgba(90,42,150,.12)}
+.pp-input::placeholder{color:rgba(120,95,160,.42)}
+.pp-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid rgba(120,80,180,.12)}
+.pp-btn-cancel{padding:10px 20px;border-radius:10px;background:none;border:1px solid rgba(120,80,180,.2);color:rgba(160,130,200,.52);font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif}
+.pp-btn-cancel:hover{border-color:rgba(160,110,210,.35);color:rgba(200,170,240,.72)}
+.pp-btn-save{padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,rgba(61,26,110,.8),rgba(90,42,150,.7));border:1px solid rgba(160,110,210,.35);color:#c9a8f0;font-size:11px;letter-spacing:1.5px;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif;font-weight:500}
+.pp-btn-save:hover{background:linear-gradient(135deg,rgba(90,42,150,.9),rgba(120,70,180,.8));box-shadow:0 0 20px rgba(90,42,150,.3)}
+.ps-bio{font-size:11px;color:rgba(200,170,240,.6);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:500px}
+</style>
+
+<script>
+function openPassport(){
+  document.getElementById('ppBackdrop').classList.add('open');
+  document.getElementById('ppModal').classList.add('open');
+}
+function closePassport(){
+  document.getElementById('ppBackdrop').classList.remove('open');
+  document.getElementById('ppModal').classList.remove('open');
+}
+function handleAvatarUpload(input){
+  if(!input.files||!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  // Update modal preview
+  const prev=document.getElementById('ppAvatarPreview');
+  prev.innerHTML='<img src="'+url+'">';
+  // Update strip avatar
+  const stripAv=document.getElementById('psAvatar');
+  stripAv.innerHTML='<img src="'+url+'">';
+}
+function handleBannerUpload(input){
+  if(!input.files||!input.files[0])return;
+  const url=URL.createObjectURL(input.files[0]);
+  document.getElementById('ppBannerImg').src=url;
+  document.querySelector('.hero-img').src=url;
+}
+function savePassport(){
+  const name=document.getElementById('ppName').value.trim()||'VioletDreamer';
+  const bio=document.getElementById('ppBio').value.trim();
+  // Update name
+  const nameEl=document.querySelector('.ps-name');
+  if(nameEl)nameEl.innerHTML=name+' <span class="ps-check">&#10003;</span>';
+  // Update handle — lowercase, no spaces
+  const handle=name.toLowerCase().replace(/\s+/g,'');
+  const handleEl=document.querySelector('.ps-handle span');
+  if(handleEl)handleEl.textContent='@'+handle;
+  // Update bio
+  const bioEl=document.getElementById('psBio');
+  if(bioEl)bioEl.textContent=bio;
+  closePassport();
+  toast('Profile updated');
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePassport()});
+</script>
+
+
+<!-- AUTH MODAL -->
+<div class="pp-backdrop" id="authBackdrop"></div>
+<div class="pp-modal" id="authModal" data-mode="login" style="max-width:420px">
+  <div class="pp-header">
+    <div class="pp-title-row">
+      <div class="pp-emblem">&#x1D54F;</div>
+      <div>
+        <div class="pp-title" id="authTitle">Welcome back</div>
+        <div class="pp-subtitle">The Purple Republic &middot; Citizen Access</div>
+      </div>
+    </div>
+  </div>
+  <div class="pp-body">
+    <div id="authNameRow" class="pp-section" style="display:none">
+      <div class="pp-section-label">Your name</div>
+      <input class="pp-input" id="authName" type="text" placeholder="How should we call you?" maxlength="30">
+    </div>
+    <div class="pp-section">
+      <div class="pp-section-label">Email</div>
+      <input class="pp-input" id="authEmail" type="email" placeholder="your@email.com">
+    </div>
+    <div class="pp-section">
+      <div class="pp-section-label">Password</div>
+      <input class="pp-input" id="authPass" type="password" placeholder="Min. 6 characters">
+    </div>
+    <button class="pp-btn-save" id="authSubmitBtn" onclick="loginWithEmail()" style="width:100%;padding:13px;font-size:11px;letter-spacing:2px">Sign in</button>
+    <div style="text-align:center;margin:4px 0;font-size:11px;color:rgba(160,130,200,.4)">— or —</div>
+    <button class="pp-btn-upload" onclick="loginWithGoogle()" style="width:100%;justify-content:center;padding:12px;font-size:11px;letter-spacing:1.5px">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+  </div>
+  <div class="pp-footer" style="justify-content:center">
+    <div class="pp-btn-cancel" id="authSwitchBtn" onclick="switchAuthMode()" style="border:none;color:var(--mist2)">Don&apos;t have an account? Join</div>
+  </div>
+</div>
+
+<!-- Purple ID badge in nav -->
+<style>
+#purpleIdBadge{font-size:8px;letter-spacing:1px;color:var(--t4);margin-left:8px;font-family:'Jost',sans-serif}
+.nav-logout{padding:6px 12px;border-radius:20px;background:none;border:1px solid var(--b1);color:var(--t3);font-size:9px;letter-spacing:1.5px;cursor:pointer;transition:all .2s;font-family:'Jost',sans-serif;margin-left:6px}
+.nav-logout:hover{border-color:var(--b2);color:var(--t2)}
+</style>
+
+<!-- ═══════════════════════════════════
+     FIREBASE SDK
+═══════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPsGsMN3rN5mwCVDJvOHtd5-FO-Yb3bk0",
+  authDomain: "the-purple-republic.firebaseapp.com",
+  projectId: "the-purple-republic",
+  storageBucket: "the-purple-republic.firebasestorage.app",
+  messagingSenderId: "716004401259",
+  appId: "1:716004401259:web:1b323a18d78094ca50912e",
+  measurementId: "G-7PF6N367NQ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ── Purple ID generator ──
+function generatePurpleID() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = 'PR-';
+  for (let i = 0; i < 8; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+
+// ── Create user profile in Firestore ──
+async function createUserProfile(user, extraData = {}) {
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    const purpleId = generatePurpleID();
+    await setDoc(ref, {
+      uid: user.uid,
+      purpleId,
+      nombre: extraData.nombre || user.displayName || 'Citizen',
+      handle: '@' + (extraData.nombre || user.displayName || 'citizen').toLowerCase().replace(/\s+/g, ''),
+      email: user.email,
+      bio: 'Exploring Purple Republic. Music. Art. Dreams. 🌙',
+      quote: 'I purple you. 💜',
+      avatar: user.photoURL || '',
+      banner: 'banner_completo.png',
+      nivel: 1,
+      xp: 0,
+      xpMax: 1000,
+      racha: 0,
+      ultimoCheckin: null,
+      likes: 0,
+      seguidores: 0,
+      siguiendo: 0,
+      publicaciones: 0,
+      reputacion: 0,
+      division: 'Unassigned',
+      creadoEn: serverTimestamp()
+    });
+    return purpleId;
+  }
+  return snap.data().purpleId;
+}
+
+// ── Load profile into UI ──
+function loadProfile(data) {
+  // Name
+  const nameEl = document.querySelector('.ps-name');
+  if (nameEl) nameEl.innerHTML = (data.nombre || 'Citizen') + ' <span class="ps-check">✓</span>';
+  // Handle
+  const handleEl = document.querySelector('.ps-handle span');
+  if (handleEl) handleEl.textContent = data.handle || '@citizen';
+  // Bio
+  const bioEl = document.getElementById('psBio');
+  if (bioEl) bioEl.textContent = data.bio || '';
+  // Quote
+  const quoteEl = document.querySelector('.ps-quote');
+  if (quoteEl) quoteEl.innerHTML = '&ldquo;' + (data.quote || 'I purple you. 💜') + '&rdquo;';
+  // Avatar
+  if (data.avatar) {
+    const avEl = document.getElementById('psAvatar');
+    if (avEl) avEl.innerHTML = '<img src="' + data.avatar + '">';
+    const ppAv = document.getElementById('ppAvatarPreview');
+    if (ppAv) ppAv.innerHTML = '<img src="' + data.avatar + '">';
+  }
+  // Stats
+  const statsMap = {
+    'likes': data.likes || 0,
+    'publicaciones': data.publicaciones || 0,
+    'seguidores': data.seguidores || 0
+  };
+  const statNums = document.querySelectorAll('.ps-stat-n');
+  const statLbls = document.querySelectorAll('.ps-stat-l');
+  if (statNums[0]) statNums[0].textContent = formatNum(statsMap.likes);
+  if (statNums[1]) statNums[1].textContent = formatNum(statsMap.publicaciones);
+  if (statNums[2]) statNums[2].textContent = formatNum(statsMap.seguidores);
+  // Level & XP
+  const lvlVal = document.querySelector('.lvl-val');
+  if (lvlVal) lvlVal.textContent = data.nivel || 1;
+  const lvlSub = document.querySelector('.lvl-sub');
+  if (lvlSub) lvlSub.textContent = getLevelTitle(data.nivel || 1);
+  const xpFill = document.querySelector('.lvl-xp-fill');
+  const xpTxt = document.querySelector('.lvl-xp-txt');
+  if (xpFill) xpFill.style.width = Math.min(100, ((data.xp || 0) / (data.xpMax || 1000)) * 100) + '%';
+  if (xpTxt) xpTxt.textContent = (data.xp || 0).toLocaleString() + ' / ' + (data.xpMax || 1000).toLocaleString() + ' XP';
+  // Streak
+  const streakEl = document.getElementById('streakNum');
+  if (streakEl) streakEl.textContent = data.racha || 0;
+  // Purple ID in nav
+  const ppBtn = document.querySelector('.nav-pp');
+  if (ppBtn && data.purpleId) ppBtn.title = 'Purple ID: ' + data.purpleId;
+  // Show/hide auth UI
+  showLoggedIn(data);
+}
+
+function formatNum(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return n.toString();
+}
+
+function getLevelTitle(lvl) {
+  const titles = ['','New Citizen','Citizen','Active Citizen','Veteran Citizen','Elite Citizen','Purple Guard','Purple Knight','Purple Champion','Purple Legend','Purple Immortal'];
+  return titles[Math.min(lvl, 10)] || 'Purple Immortal';
+}
+
+function showLoggedIn(data) {
+  const authModal = document.getElementById('authModal');
+  if (authModal) authModal.classList.remove('open');
+  const authBd = document.getElementById('authBackdrop');
+  if (authBd) authBd.classList.remove('open');
+  // Show logout in nav
+  const ppBtn = document.querySelector('.nav-pp');
+  if (ppBtn) {
+    ppBtn.textContent = 'Profile';
+    ppBtn.onclick = openPassport;
+  }
+  // Show purple id badge
+  const badge = document.getElementById('purpleIdBadge');
+  if (badge && data.purpleId) badge.textContent = data.purpleId;
+}
+
+// ── Auth state listener ──
+let currentUserId = null;
+let profileUnsub = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUserId = user.uid;
+    // Subscribe to real-time profile updates
+    if (profileUnsub) profileUnsub();
+    profileUnsub = onSnapshot(doc(db, 'users', user.uid), (snap) => {
+      if (snap.exists()) loadProfile(snap.data());
+    });
+  } else {
+    currentUserId = null;
+    if (profileUnsub) { profileUnsub(); profileUnsub = null; }
+    // Show auth modal
+    setTimeout(() => {
+      const authModal = document.getElementById('authModal');
+      if (authModal) authModal.classList.add('open');
+      const authBd = document.getElementById('authBackdrop');
+      if (authBd) authBd.classList.add('open');
+    }, 800);
+  }
+});
+
+// ── Check-in diario ──
+window.doCheckin = async function() {
+  if (!currentUserId) return;
+  const ref = doc(db, 'users', currentUserId);
+  const snap = await getDoc(ref);
+  const data = snap.data();
+  const now = new Date();
+  const today = now.toDateString();
+  const lastCheckin = data.ultimoCheckin?.toDate?.()?.toDateString?.() || '';
+  if (lastCheckin === today) { toast('Already checked in today!'); return; }
+  const yesterday = new Date(now - 86400000).toDateString();
+  const newRacha = lastCheckin === yesterday ? (data.racha || 0) + 1 : 1;
+  const xpGain = 25 + (newRacha * 5);
+  const newXp = (data.xp || 0) + xpGain;
+  const newNivel = Math.floor(newXp / 1000) + 1;
+  await updateDoc(ref, {
+    ultimoCheckin: serverTimestamp(),
+    racha: newRacha,
+    xp: newXp,
+    nivel: Math.min(newNivel, 10),
+    xpMax: newNivel * 1000
+  });
+  const btn = document.getElementById('ciBtn');
+  if (btn) { btn.textContent = 'Checked in ✓'; btn.style.color = '#6bcfb8'; }
+  toast('Check-in complete! +' + xpGain + ' XP 💜');
+};
+
+// ── Save profile ──
+window.savePassport = async function() {
+  const name = document.getElementById('ppName')?.value.trim() || '';
+  const bio = document.getElementById('ppBio')?.value.trim() || '';
+  const handle = '@' + name.toLowerCase().replace(/\s+/g, '');
+  if (currentUserId && name) {
+    await updateDoc(doc(db, 'users', currentUserId), { nombre: name, handle, bio });
+  }
+  // Update UI immediately
+  const nameEl = document.querySelector('.ps-name');
+  if (nameEl) nameEl.innerHTML = name + ' <span class="ps-check">✓</span>';
+  const handleEl = document.querySelector('.ps-handle span');
+  if (handleEl) handleEl.textContent = handle;
+  const bioEl = document.getElementById('psBio');
+  if (bioEl) bioEl.textContent = bio;
+  closePassport();
+  toast('Profile updated 💜');
+};
+
+// ── Auth functions exposed globally ──
+window.loginWithGoogle = async function() {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    await createUserProfile(result.user);
+    toast('Welcome to The Purple Republic! 💜');
+  } catch (e) { toast('Error: ' + e.message); }
+};
+
+window.loginWithEmail = async function() {
+  const email = document.getElementById('authEmail')?.value.trim();
+  const pass = document.getElementById('authPass')?.value;
+  const isRegister = document.getElementById('authModal')?.dataset.mode === 'register';
+  try {
+    if (isRegister) {
+      const nombre = document.getElementById('authName')?.value.trim() || 'Citizen';
+      const result = await createUserWithEmailAndPassword(auth, email, pass);
+      const pid = await createUserProfile(result.user, { nombre });
+      toast('Welcome, ' + nombre + '! Purple ID: ' + pid + ' 💜');
+    } else {
+      await signInWithEmailAndPassword(auth, email, pass);
+      toast('Welcome back! 💜');
+    }
+  } catch (e) {
+    const msg = e.code === 'auth/user-not-found' ? 'User not found' :
+                e.code === 'auth/wrong-password' ? 'Wrong password' :
+                e.code === 'auth/email-already-in-use' ? 'Email already registered' :
+                e.code === 'auth/weak-password' ? 'Password too weak (min 6 chars)' : e.message;
+    toast('Error: ' + msg);
+  }
+};
+
+window.logOut = async function() {
+  await signOut(auth);
+  toast('See you soon! 💜');
+};
+
+window.switchAuthMode = function() {
+  const modal = document.getElementById('authModal');
+  const isRegister = modal.dataset.mode === 'register';
+  modal.dataset.mode = isRegister ? 'login' : 'register';
+  document.getElementById('authTitle').textContent = isRegister ? 'Welcome back' : 'Join The Republic';
+  document.getElementById('authSubmitBtn').textContent = isRegister ? 'Sign in' : 'Create account';
+  document.getElementById('authSwitchBtn').textContent = isRegister ? "Don't have an account? Join" : 'Already a citizen? Sign in';
+  const nameRow = document.getElementById('authNameRow');
+  if (nameRow) nameRow.style.display = isRegister ? 'none' : 'flex';
+};
+
+</script>
+
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(r => {
+      console.log('SW registered');
+    }).catch(e => console.log('SW error:', e));
+  });
+}
+
+// PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install button
+  const installBtn = document.getElementById('pwaInstallBtn');
+  if(installBtn) installBtn.style.display = 'flex';
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  toast('The Purple Republic added to your home screen! 💜');
+});
+
+window.installPWA = function() {
+  if(deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(c => {
+      deferredPrompt = null;
+    });
+  }
+};
+</script>
+
+</body>
+</html>
